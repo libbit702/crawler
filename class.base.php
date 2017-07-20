@@ -44,25 +44,35 @@ class CrawlerBase
 	 */
 	public function prepareCrawl() {
 		// 执行网络IO，抓取指定链接的数据
-		self::$_hooks->add_action('run_spider', array($this, 'doCrawl'));
+		self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doCrawl'));
 
 		// 筛除关键词设置
-		self::$_hooks->add_action('run_spider', array($this, 'doKeywordFilter'));
-
+		if (isset($this->crawl_config['keyword_check'])) {
+			self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doKeywordCheck'));
+		}
+		
 		// 内容发布时间设置
-		self::$_hooks->add_action('run_spider', array($this, 'doPublicTimeLimit'));
+		if (isset($this->crawl_config['public_time_check'])) {
+			self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doPublicTimeCheck'));
+		}
 	
 		// 点赞数限制
-		self::$_hooks->add_action('run_spider', array($this, 'doLikeLimit'));
+		if (isset($this->crawl_config['like_check'])) {
+			self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doLikeCheck'));
+		}
 
 		// 图片个数限制
-		self::$_hooks->add_action('run_spider', array($this, 'doImageLimit'));
+		if (isset($this->crawl_config['image_check'])) {
+			self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doImageCheck'));
+		}
 
 		// 视频个数限制
-		self::$_hooks->add_action('run_spider', array($this, 'doVideoLimit'));
+		if (isset($this->crawl_config['video_check'])) {
+			self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doVideoCheck'));
+		}
 
 		// 最终输出合法的抓取数据
-		self::$_hooks->add_action('run_spider', array($this, 'doMessage'));	
+		self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doMessage'));	
 	}
 
 	/**
@@ -88,7 +98,7 @@ class CrawlerBase
 	 *
 	 * @access protected
 	 */
-	public function doKeywordFilter() {
+	public function doKeywordCheck() {
 		echo __METHOD__ . "\n";
 	}
 
@@ -97,7 +107,7 @@ class CrawlerBase
 	 *
 	 * @access protected
 	 */
-	public function doLikeLimit() {
+	public function doLikeCheck() {
 		echo __METHOD__ . "\n";
 	}
 
@@ -106,7 +116,7 @@ class CrawlerBase
 	 *
 	 * @access protected
 	 */
-	public function doPublicTimeLimit() {
+	public function doPublicTimeCheck() {
 		echo __METHOD__ . "\n";
 	}
 
@@ -115,7 +125,7 @@ class CrawlerBase
 	 *
 	 * @access protected
 	 */
-	public function doImageLimit() {
+	public function doImageCheck() {
 		echo __METHOD__ . "\n";
 	}
 
@@ -124,7 +134,7 @@ class CrawlerBase
 	 *
 	 * @access protected
 	 */
-	public function doVideoLimit() {
+	public function doVideoCheck() {
 		echo __METHOD__ . "\n";
 	}
 

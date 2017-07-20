@@ -57,9 +57,9 @@ class CrawlerWeiboUser extends CrawlerBase {
 		}
 	}
 
-	public function doKeywordFilter() {
-		if (isset($this->crawl_config['keyword_filter'])) {
-			$keyword_filter = $this->crawl_config['keyword_filter'];
+	public function doKeywordCheck() {
+		if (isset($this->crawl_config['keyword_check'])) {
+			$keyword_filter = $this->crawl_config['keyword_check'];
 			if (!empty($keyword_filter)) {
 				foreach ($this->crawl_messages as $ssk => $ssc) {
 					foreach ($keyword_filter as $kf) {
@@ -73,10 +73,10 @@ class CrawlerWeiboUser extends CrawlerBase {
 		}
 	}
 
-	public function doPublicTimeLimit() {
-		if (isset($this->crawl_config['public_time_limit'])) {
+	public function doPublicTimeCheck() {
+		if (isset($this->crawl_config['public_time_check'])) {
 			foreach ($this->crawl_messages as $ssk => $ssc) {
-				if ($ssc['created_at_time'] < $this->crawl_config['public_time_limit']) {
+				if ($ssc['created_at_time'] < $this->crawl_config['public_time_check']) {
 					$this->log('不满足发布时间限制，删除数据:' . print_r($ssc, true));
 					unset($this->crawl_messages[$ssk]);
 				}
@@ -84,14 +84,14 @@ class CrawlerWeiboUser extends CrawlerBase {
 		}
 	}
 
-	public function doImageLimit() {
-		if (isset($this->crawl_config['image_limit'])) {
+	public function doImageCheck() {
+		if (isset($this->crawl_config['image_check'])) {
 			foreach ($this->crawl_messages as $ssk => $ssc) {
 				//如果是视频，不检测图片限制
 				if (isset($ssc['page_info']) && $ssc['page_info']['type'] == 'video') {
 					continue;
 				}
-				if (count($ssc['pics']) < $this->crawl_config['image_limit']) {
+				if (count($ssc['pics']) < $this->crawl_config['image_check']) {
 					$this->log('不满足图片设置，删除数据:' . print_r($ssc, true));
 					unset($this->crawl_messages[$ssk]);
 				}
@@ -99,8 +99,8 @@ class CrawlerWeiboUser extends CrawlerBase {
 		}
 	}
 
-	public function doVideoLimit() {
-		if (isset($this->crawl_config['video_limit'])) {
+	public function doVideoCheck() {
+		if (isset($this->crawl_config['video_check'])) {
 			foreach ($this->crawl_messages as $ssk => $ssc) {
 				if (!isset($ssc['page_info']) || $ssc['page_info']['type'] != 'video') {
 					$this->log('不满足视频设置，删除数据:' . print_r($ssc, true));
