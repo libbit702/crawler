@@ -4,7 +4,7 @@ require_once("lib/simple_html_dom.php");
 require_once("lib/php-hooks.php");
 require_once("lib/Snoopy.class.php");
 
-class CrawlerBase 
+abstract class CrawlerBase 
 
 {
 	protected static $_hooks = null;
@@ -19,7 +19,11 @@ class CrawlerBase
 
 	}
 	
-	public function __destruct() {}
+	public function __destruct() {
+		$this->snoopy = null;
+		$this->crawl_messages = array();
+		self::$_hooks->remove_all_actions('Run_Crawl_Setup');
+	}
 	
 	/**
 	 * 设置抓取配置
@@ -43,7 +47,7 @@ class CrawlerBase
 	 * @access public
 	 */
 	public function prepareCrawl() {
-		// 执行网络IO，抓取指定链接的数据
+
 		self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doCrawl'));
 
 		// 筛除关键词设置
@@ -71,89 +75,83 @@ class CrawlerBase
 			self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doVideoCheck'));
 		}
 
-		// 最终输出合法的抓取数据
 		self::$_hooks->add_action('Run_Crawl_Setup', array($this, 'doMessage'));	
 	}
 
 	/**
-	 * 添加钩子函数流程
+	 * 执行钩子
 	 *
 	 * @access public
 	 */
 	public function executeCrawl() {
-		self::$_hooks->do_action('run_spider');
+		self::$_hooks->do_action('Run_Crawl_Setup');
 	}
 
 	/**
-	 * 根据主题拼接关键字，并生成抓取链接
+	 * 执行抓取
 	 *
-	 * @access protected
+	 * @access public
 	 */
-	public function doCrawl() {
-		echo __METHOD__ . "\n";
-	}
+	abstract public function doCrawl();
 
 	/**
-	 * 根据筛除关键字，过滤抓取数据并标记
+	 * 处理过滤后的抓取数据
 	 *
-	 * @access protected
+	 * @access public
+	 */
+	abstract public function doMessage();
+
+	/**
+	 * 文本关键字检测
+	 *
+	 * @access public
 	 */
 	public function doKeywordCheck() {
 		echo __METHOD__ . "\n";
 	}
 
 	/**
-	 * 根据内容点赞数，过滤抓取数据并标记
+	 * 点赞检测
 	 *
-	 * @access protected
+	 * @access public
 	 */
 	public function doLikeCheck() {
 		echo __METHOD__ . "\n";
 	}
 
 	/**
-	 * 根据内容发布时间，过滤抓取数据并标记
+	 * 内容发布时间检测
 	 *
-	 * @access protected
+	 * @access public
 	 */
 	public function doPublicTimeCheck() {
 		echo __METHOD__ . "\n";
 	}
 
 	/**
-	 * 根据图片个数设置，过滤抓取数据并标记
+	 * 图片检测
 	 *
-	 * @access protected
+	 * @access public
 	 */
 	public function doImageCheck() {
 		echo __METHOD__ . "\n";
 	}
 
 	/**
-	 * 检测是否有视频
+	 * 视频检测
 	 *
-	 * @access protected
+	 * @access public
 	 */
 	public function doVideoCheck() {
 		echo __METHOD__ . "\n";
 	}
 
 	/**
-	 * 展示过滤后的抓取数据
+	 * 打印日志信息
 	 *
-	 * @access protected
+	 * @access public
 	 */
-	public function doMessage() {
-		echo __METHOD__ . "\n";
-		print_r($this->crawl_messages);
-	}
-
-	/**
-	 * 打印抓取日志信息
-	 *
-	 * @access protected
-	 */
-	public function log($msg) {
+	protected function log($msg) {
 		if ($this->crawl_config['debug']) {
 			echo sprintf("[%s]:%s\n", date('c'), $msg);
 		}

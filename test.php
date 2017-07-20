@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+error_reporting(E_ALL);
 
 require_once("class.weibo.search.php");
 require_once("class.weibo.user.php");
