@@ -2,7 +2,7 @@
 
 require_once('class.base.php');
 
-class CrawlerWeiboSearch extends CrawlerBase {
+class CrawlerWeiboUser extends CrawlerBase {
 
 	public function __construct() {
 		parent::__construct();
@@ -12,20 +12,20 @@ class CrawlerWeiboSearch extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['keywords']) || empty($this->crawl_config['keywords'])) {
-			throw new Exception("keywords required for weibo search");
+		if (!isset($this->crawl_config['ids']) || empty($this->crawl_config['ids'])) {
+			throw new Exception("user ids required for weibo user");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for weibo search");
+			throw new Exception("invalid page setting for weibo user");
 		}
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
 
-		foreach ($this->crawl_config['keywords'] as $kw) {
+		foreach ($this->crawl_config['ids'] as $ei) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'https://m.weibo.cn/container/getIndex?type=all&containerid=100103type%3D1%26q%3D'.rawurlencode($kw).'&page='.$i;
+				$weibo_url = 'https://m.weibo.cn/container/getIndex?type=uid&value='.$ei.'&containerid=107603'.$ei.'&page='.$i;
 
 				$this->log("开始请求地址:$weibo_url");
 
@@ -46,14 +46,10 @@ class CrawlerWeiboSearch extends CrawlerBase {
 				}
 
 				if (isset($result['cards'])) {
-					foreach ($result['cards'] as $rc) {
-						if (isset($rc['card_group'])) {
-							foreach ($rc['card_group'] as $rcc) {
-								if ($rcc['card_type'] == 9) {
-									$rcc['mblog']['created_at_time'] = date('Y-m-d H:i', $this->getWeiboMblogTime($rcc['mblog']['created_at']));
-									$this->crawl_messages[] = $rcc['mblog'];
-								}
-							}
+					foreach ($result['cards'] as $rcc) {
+						if ($rcc['card_type'] == 9) {
+							$rcc['mblog']['created_at_time'] = date('Y-m-d H:i', $this->getWeiboMblogTime($rcc['mblog']['created_at']));
+							$this->crawl_messages[] = $rcc['mblog'];
 						}
 					}
 				}
