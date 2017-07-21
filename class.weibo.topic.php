@@ -2,7 +2,7 @@
 
 require_once('class.base.php');
 
-class CrawlerWeiboUser extends CrawlerBase {
+class CrawlerWeiboTopic extends CrawlerBase {
 
 	public function __construct() {
 		parent::__construct();
@@ -25,7 +25,7 @@ class CrawlerWeiboUser extends CrawlerBase {
 
 		foreach ($this->crawl_config['ids'] as $ei) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'https://m.weibo.cn/container/getIndex?type=uid&value='.$ei.'&containerid=107603'.$ei.'&page='.$i;
+				$weibo_url = 'https://m.weibo.cn/container/getIndex?containerid='.$ei.'&page='.$i;
 
 				$this->log("开始请求地址:$weibo_url");
 
@@ -46,10 +46,17 @@ class CrawlerWeiboUser extends CrawlerBase {
 				}
 
 				if (isset($result['cards'])) {
-					foreach ($result['cards'] as $rcc) {
-						if ($rcc['card_type'] == 9) {
-							$rcc['mblog']['created_at_time'] = date('Y-m-d H:i', $this->getWeiboMblogTime($rcc['mblog']['created_at']));
-							$this->crawl_messages[] = $rcc['mblog'];
+					foreach ($result['cards'] as $rc) {
+						if ($rc['card_type'] !== 11) {
+							continue;
+						}
+						if (isset($rc['card_group'])) {
+							foreach ($rc['card_group'] as $rcc) {
+								if ($rcc['card_type'] == 9) {
+									$rcc['mblog']['created_at_time'] = date('Y-m-d H:i', $this->getWeiboMblogTime($rcc['mblog']['created_at']));
+									$this->crawl_messages[] = $rcc['mblog'];
+								}
+							}
 						}
 					}
 				}
@@ -111,6 +118,6 @@ class CrawlerWeiboUser extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		// print_r($this->crawl_messages);
+		print_r($this->crawl_messages);
 	}
 }

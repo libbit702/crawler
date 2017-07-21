@@ -5,7 +5,6 @@ require_once("lib/php-hooks.php");
 require_once("lib/Snoopy.class.php");
 
 abstract class CrawlerBase 
-
 {
 	protected static $_hooks = null;
 	protected $snoopy = null;
@@ -149,11 +148,44 @@ abstract class CrawlerBase
 	/**
 	 * 打印日志信息
 	 *
-	 * @access public
+	 * @param string msg:需要打印的消息
+	 * @access protected
 	 */
 	protected function log($msg) {
 		if ($this->crawl_config['debug']) {
 			echo sprintf("[%s]:%s\n", date('c'), $msg);
 		}
+	}
+
+	/**
+	 * 将微博的消息发布时间转换为时间戳
+	 * 
+	 * @param string str:微博发布时间
+	 * @access protected
+	 */
+	protected function getWeiboMblogTime($str) {
+		$real_time = null;
+		$time_now = time();
+		$date_today = date('Y-m-d');
+		$year_now = date('Y');
+		if (mb_strpos($str, '分钟') !== false) {
+			$real_time = $time_now - intval($str) * 60;
+		} else if (mb_strpos($str, '今天') !== false) {
+			$real_time = strtotime($date_today . ' ' . trim(str_replace('今天', '', $str)));
+		} else if (strpos($str, '-') !== false) {
+			$real_time = strtotime($year_now . '-' . $str);
+		} else {
+			$real_time = strtotime($str);
+		}
+		return $real_time;
+	}
+
+	/**
+	 * 返回抓取过滤后的数据
+	 * 
+	 * @access protected
+	 */
+	protected function getMessage() {
+		return $this->crawl_messages;
 	}
 }

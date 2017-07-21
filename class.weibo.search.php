@@ -117,33 +117,4 @@ class CrawlerWeiboSearch extends CrawlerBase {
 	public function doMessage() {
 		// print_r($this->crawl_messages);
 	}
-
-	public function getMessage() {
-		return $this->crawl_messages;
-	}
-
-	//================= Spider END =======================	
-
-	//通用
-	//------------------------通用错误码 BEGIN----------------------------------
-
-	private function getWeiboMblogTime($str) {
-		$real_time = null;
-		$time_now = time();
-		$date_today = date('Y-m-d');
-		$year_now = date('Y');
-		if (mb_strpos($str, '分钟') !== false) {
-			$real_time = $time_now - intval($str) * 60;
-		} else if (mb_strpos($str, '今天') !== false) {
-			$real_time = strtotime($date_today . ' ' . trim(str_replace('今天', '', $str)));
-		} else if (strpos($str, '-') !== false) {
-			$real_time = strtotime($year_now . '-' . $str);
-		} else {
-			$real_time = strtotime($str);
-		}
-		return $real_time;
-	}
-	//------------------------通用错误码 END----------------------------------
-
 }
-?>
