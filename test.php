@@ -1,9 +1,11 @@
 <?php
-error_reporting(0);
+error_reporting(E_ALL);
 
 require_once("class.weibo.search.php");
 require_once("class.weibo.user.php");
 require_once("class.weibo.topic.php");
+require_once("class.twitter.search.php");
+require_once("class.twitter.user.php");
 
 // $crawler = new CrawlerWeiboSearch();
 // $crawler->setConfig([
@@ -21,9 +23,23 @@ require_once("class.weibo.topic.php");
 // 	'image_check' => 8,
 // ]);
 
-$crawler = new CrawlerWeiboTopic();
+// $crawler = new CrawlerWeiboTopic();
+// $crawler->setConfig([
+// 	'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
+// 	'debug' => true,
+// 	'keyword_check' => ['魔兽争霸'],
+// ]);
+
+// $crawler = new CrawlerTwitterSearch();
+// $crawler->setConfig([
+// 	'keywords' => ['exo'],
+// 	'debug' => true,
+// 	'keyword_check' => ['魔兽争霸'],
+// ]);
+
+$crawler = new CrawlerTwitterUser();
 $crawler->setConfig([
-	'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
+	'ids' => ['KARD_Official'],
 	'debug' => true,
 	'keyword_check' => ['魔兽争霸'],
 ]);
