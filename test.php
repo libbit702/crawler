@@ -8,6 +8,8 @@ require_once("class.twitter.search.php");
 require_once("class.twitter.user.php");
 require_once("class.instagram.search.php");
 require_once("class.instagram.user.php");
+require_once("class.bilibili.search.php");
+
 
 // $crawler = new CrawlerWeiboSearch();
 // $crawler->setConfig([
@@ -54,12 +56,20 @@ require_once("class.instagram.user.php");
 // 	'keyword_check' => ['魔兽争霸'],
 // ]);
 
-$crawler = new CrawlerInstagramUser();
+// $crawler = new CrawlerInstagramUser();
+// $crawler->setConfig([
+// 	'ids' => ['__youngbae__'],
+// 	'debug' => true,
+// 	'keyword_check' => ['魔兽争霸'],
+// 	'page' => 2,
+// ]);
+
+$crawler = new CrawlerBilibiliSearch();
 $crawler->setConfig([
-	'ids' => ['__youngbae__'],
+	'keywords' => ['exo'],
 	'debug' => true,
 	'keyword_check' => ['魔兽争霸'],
-	'page' => 2,
+	'page' => 1,
 ]);
 
 $crawler->prepareCrawl();
