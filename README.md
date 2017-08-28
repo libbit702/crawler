@@ -12,6 +12,7 @@
 | **Instagram账号** | <https://instagram.com/>    |✓|✓|✓|✓|
 | **Bilibili搜索** | <http://bilibili.tv/>    |x|x|✓|✓|
 | **Bilibili账号** | <http://bilibili.tv/>    |x|x|x|✓|
+| **Vlive** | <http://www.vlive.tv/>    |x|x|x|✓|
 
 ## 使用说明
 
@@ -57,3 +58,14 @@ $crawler->executeCrawl();
 | ids |array|B站Up主的ID|
 | page |int|抓取结果页数|
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+
+### Vlive抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| date |string|参数如20170821,指定vlive数据的日期|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+
+```
+注意：返回的videos字段是视频播放地址数据对应接口地址，返回JSON数据；要获得真实可播放视频地址，需要额外一步网络IO操作
+```
