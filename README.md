@@ -11,6 +11,7 @@
 | **Instagram搜索** | <https://instagram.com/>    |✓|✓|✓|✓|
 | **Instagram账号** | <https://instagram.com/>    |✓|✓|✓|✓|
 | **Bilibili搜索** | <http://bilibili.tv/>    |x|x|✓|✓|
+| **Bilibili账号** | <http://bilibili.tv/>    |x|x|x|✓|
 
 ## 使用说明
 
@@ -39,3 +40,20 @@ $crawler->executeCrawl();
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
 | video_check |int|设置大于0时，检测微博中是否带有视频数据|
 | image_check |int|设置大于0时，检测微博中图片个数是否满足此处设定|
+
+### Bilibili检索抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| keywords |array|检索关键字|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+
+### Bilibili账号抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| ids |array|B站Up主的ID|
+| page |int|抓取结果页数|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
