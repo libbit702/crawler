@@ -98,7 +98,7 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 			if (!empty($keyword_filter)) {
 				foreach ($this->crawl_messages as $ssk => $ssc) {
 					foreach ($keyword_filter as $kf) {
-						if (mb_strpos($ssc['text'], $kf) !== false) {
+						if (mb_strpos($ssc['title'], $kf) !== false) {
 							$this->log('微博正文筛出关键字匹配成功，删除数据:' . print_r($ssc, true));
 							unset($this->crawl_messages[$ssk]);
 						}
@@ -120,29 +120,11 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 	}
 
 	public function doImageCheck() {
-		if (isset($this->crawl_config['image_check'])) {
-			foreach ($this->crawl_messages as $ssk => $ssc) {
-				//如果是视频，不检测图片限制
-				if (isset($ssc['page_info']) && $ssc['page_info']['type'] == 'video') {
-					continue;
-				}
-				if (count($ssc['pics']) < $this->crawl_config['image_check']) {
-					$this->log('不满足图片设置，删除数据:' . print_r($ssc, true));
-					unset($this->crawl_messages[$ssk]);
-				}
-			}
-		}
+		//B站Up主数据不检测图片
 	}
 
 	public function doVideoCheck() {
-		if (isset($this->crawl_config['video_check'])) {
-			foreach ($this->crawl_messages as $ssk => $ssc) {
-				if (!isset($ssc['page_info']) || $ssc['page_info']['type'] != 'video') {
-					$this->log('不满足视频设置，删除数据:' . print_r($ssc, true));
-					unset($this->crawl_messages[$ssk]);
-				}
-			}
-		}
+		//B站Up主数据不检测视频
 	}
 
 	public function doMessage() {
