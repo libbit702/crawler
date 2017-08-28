@@ -109,25 +109,13 @@ class CrawlerInstagramSearch extends CrawlerBase {
 	}
 
 	public function doImageCheck() {
-		if (isset($this->crawl_config['image_check'])) {
-			foreach ($this->crawl_messages as $ssk => $ssc) {
-				//如果是视频，不检测图片限制
-				if (isset($ssc['videos'])) {
-					continue;
-				}
-
-				if (count($ssc['pics']) < $this->crawl_config['image_check']) {
-					$this->log('不满足图片设置，删除数据:' . print_r($ssc, true));
-					unset($this->crawl_messages[$ssk]);
-				}
-			}
-		}
+		//Instagram数据不检测图片，不过有些ins的图片个数是大于1的，视频也是大于1的
 	}
 
 	public function doVideoCheck() {
 		if (isset($this->crawl_config['video_check'])) {
 			foreach ($this->crawl_messages as $ssk => $ssc) {
-				if (!isset($ssc['videos'])) {
+				if (!isset($ssc['video'])) {
 					$this->log('不满足视频设置，删除数据:' . print_r($ssc, true));
 					unset($this->crawl_messages[$ssk]);
 				}
