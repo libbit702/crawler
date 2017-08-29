@@ -31,6 +31,23 @@ $crawler->setConfig([
 $crawler->prepareCrawl();
 $crawler->executeCrawl();
 ```
+
+### 测试用例
+
+基于PHP5.6.30测试,使用了PHPUnit 5.7 <http://www.phpunit.cn/>
+
+```console
+$ phpunit tests/CrawlerWeiboSearchTest
+
+PHPUnit 5.7.21 by Sebastian Bergmann and contributors.
+
+.........                                                           9 / 9 (100%)
+
+Time: 5.53 seconds, Memory: 14.25MB
+
+OK (9 tests, 17 assertions)
+```
+
 ### Weibo账号抓取
 
 | 参数名称 | 数据类型 | 说明 |
@@ -67,5 +84,5 @@ $crawler->executeCrawl();
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
 
 ```
-注意：返回的videos字段是视频播放地址数据对应接口地址，返回JSON数据；要获得真实可播放视频地址，需要额外一步网络IO操作
+注意：返回的videos字段是视频播放地址数据对应接口地址，返回JSON数据；‘要获得真实可播放视频地址，需要额外一步网络IO操作
 ```

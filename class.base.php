@@ -185,7 +185,7 @@ abstract class CrawlerBase
 	 * 
 	 * @access protected
 	 */
-	protected function getMessage() {
+	public function getMessage() {
 		return $this->crawl_messages;
 	}
 }

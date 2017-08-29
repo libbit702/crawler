@@ -12,13 +12,17 @@ class CrawlerWeiboSearch extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['keywords']) || empty($this->crawl_config['keywords'])) {
-			throw new Exception("keywords required for weibo search");
+		if (!isset($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords required for weibo search");
+		}
+
+		if (empty($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords cannot be empty for weibo search");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for weibo search");
+			throw new InvalidArgumentException("invalid page setting for weibo search");
 		}
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
@@ -95,7 +99,8 @@ class CrawlerWeiboSearch extends CrawlerBase {
 				if (isset($ssc['page_info']) && $ssc['page_info']['type'] == 'video') {
 					continue;
 				}
-				if (count($ssc['pics']) < $this->crawl_config['image_check']) {
+				
+				if (!isset($ssc['pics']) || count($ssc['pics']) < $this->crawl_config['image_check']) {
 					$this->log('不满足图片设置，删除数据:' . print_r($ssc, true));
 					unset($this->crawl_messages[$ssk]);
 				}
