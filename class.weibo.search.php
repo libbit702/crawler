@@ -29,28 +29,28 @@ class CrawlerWeiboSearch extends CrawlerBase {
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'https://m.weibo.cn/container/getIndex?type=all&containerid=100103type%3D1%26q%3D'.rawurlencode($kw).'&page='.$i;
+				$crawl_url = 'https://m.weibo.cn/container/getIndex?type=all&containerid=100103type%3D1%26q%3D'.rawurlencode($kw).'&page='.$i;
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
+				$this->snoopy->fetch($crawl_url);
 				
 				if ($this->snoopy->results === null) {
 					continue;
 				}
 
-				$weibo_result = $this->snoopy->results;
+				$crawl_result = $this->snoopy->results;
 
-				$this->log("请求返回结果:$weibo_result");
+				$this->log("请求返回结果:$crawl_result");
 
-				$result = json_decode($weibo_result, true);
+				$message_result = json_decode($crawl_result, true);
 
-				if (!is_array($result)) {
+				if (!is_array($message_result)) {
 					continue;
 				}
 
-				if (isset($result['cards'])) {
-					foreach ($result['cards'] as $rc) {
+				if (isset($message_result['cards'])) {
+					foreach ($message_result['cards'] as $rc) {
 						if (isset($rc['card_group'])) {
 							foreach ($rc['card_group'] as $rcc) {
 								if ($rcc['card_type'] == 9) {
@@ -99,7 +99,7 @@ class CrawlerWeiboSearch extends CrawlerBase {
 				if (isset($ssc['page_info']) && $ssc['page_info']['type'] == 'video') {
 					continue;
 				}
-				
+
 				if (!isset($ssc['pics']) || count($ssc['pics']) < $this->crawl_config['image_check']) {
 					$this->log('不满足图片设置，删除数据:' . print_r($ssc, true));
 					unset($this->crawl_messages[$ssk]);
@@ -120,6 +120,6 @@ class CrawlerWeiboSearch extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		// print_r($this->crawl_messages);
+		print_r($this->crawl_messages);
 	}
 }

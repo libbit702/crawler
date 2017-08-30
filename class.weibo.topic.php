@@ -12,41 +12,45 @@ class CrawlerWeiboTopic extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['ids']) || empty($this->crawl_config['ids'])) {
-			throw new Exception("user ids required for weibo user");
+		if (!isset($this->crawl_config['ids'])) {
+			throw new InvalidArgumentException("topic ids required for weibo topic");
+		}
+
+		if (empty($this->crawl_config['ids'])) {
+			throw new InvalidArgumentException("topic ids cannot be empty for weibo topic");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for weibo user");
+			throw new InvalidArgumentException("invalid page setting for weibo topic");
 		}
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
 
 		foreach ($this->crawl_config['ids'] as $ei) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'https://m.weibo.cn/container/getIndex?containerid='.$ei.'&page='.$i;
+				$crawl_url = 'https://m.weibo.cn/container/getIndex?containerid='.$ei.'&page='.$i;
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
+				$this->snoopy->fetch($crawl_url);
 				
 				if ($this->snoopy->results === null) {
 					continue;
 				}
 
-				$weibo_result = $this->snoopy->results;
+				$crawl_result = $this->snoopy->results;
 
-				$this->log("请求返回结果:$weibo_result");
+				$this->log("请求返回结果:$crawl_result");
 
-				$result = json_decode($weibo_result, true);
+				$message_result = json_decode($crawl_result, true);
 
-				if (!is_array($result)) {
+				if (!is_array($message_result)) {
 					continue;
 				}
 
-				if (isset($result['cards'])) {
-					foreach ($result['cards'] as $rc) {
+				if (isset($message_result['cards'])) {
+					foreach ($message_result['cards'] as $rc) {
 						if ($rc['card_type'] !== 11) {
 							continue;
 						}
@@ -118,6 +122,6 @@ class CrawlerWeiboTopic extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		print_r($this->crawl_messages);
+		// print_r($this->crawl_messages);
 	}
 }
