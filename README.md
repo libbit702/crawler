@@ -48,11 +48,22 @@ Time: 5.53 seconds, Memory: 14.25MB
 OK (9 tests, 17 assertions)
 ```
 
-### Weibo账号抓取
+### Weibo搜索抓取
 
 | 参数名称 | 数据类型 | 说明 |
 | :--: | :-- | :-- |
 | keywords |array|检索的关键字|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+| video_check |int|设置大于0时，检测微博中是否带有视频数据|
+| image_check |int|设置大于0时，检测微博中图片个数是否满足此处设定|
+
+### Weibo账号抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| ids |array|微博用户的oid，查看网页源代码可见|
 | page |int|抓取结果页数|
 | keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
