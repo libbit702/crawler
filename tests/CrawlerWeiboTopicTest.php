@@ -2,27 +2,27 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once(dirname(__FILE__) . "/../class.weibo.search.php");
+require_once(dirname(__FILE__) . "/../class.weibo.topic.php");
 
 /**
- * @covers CrawlerWeiboSearch
+ * @covers CrawlerWeiboUser
  */
-final class CrawlerWeiboSearchTest extends TestCase
+final class CrawlerWeiboTopicTest extends TestCase
 {
-    public function testCanBeCreatedFromWeiboSearch()
+    public function testCanBeCreatedFromWeiboTopic()
     {
         $this->assertInstanceOf(
-            CrawlerWeiboSearch::class,
-            new CrawlerWeiboSearch()
+            CrawlerWeiboTopic::class,
+            new CrawlerWeiboTopic()
         );
     }
 
-    public function testKeywordsCannotBeNull()
+    public function testIdsCannotBeNull()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords required for weibo search");
+        $this->expectExceptionMessage("topic ids required for weibo topic");
 
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
          'keyword_check' => ['魔兽争霸'],
         ]);
@@ -30,14 +30,14 @@ final class CrawlerWeiboSearchTest extends TestCase
         $crawler->executeCrawl();
     }
 
-    public function testKeywordsCannotBeEmpty()
+    public function testIdsCannotBeEmpty()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords cannot be empty for weibo search");
+        $this->expectExceptionMessage("topic ids cannot be empty for weibo topic");
 
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
-            'keywords' => [],
+            'ids' => [],
             'keyword_check' => ['魔兽争霸'],
         ]);
         $crawler->prepareCrawl();
@@ -47,11 +47,11 @@ final class CrawlerWeiboSearchTest extends TestCase
     public function testPageCannotBeZero()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weibo search");
+        $this->expectExceptionMessage("invalid page setting for weibo topic");
 
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
-            'keywords' => ['DOTA2'],
+            'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
             'page' => 0,
             'keyword_check' => ['魔兽争霸'],
         ]);
@@ -62,11 +62,11 @@ final class CrawlerWeiboSearchTest extends TestCase
     public function testPageCannotBeNegative()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weibo search");
+        $this->expectExceptionMessage("invalid page setting for weibo topic");
 
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
-            'keywords' => ['DOTA2'],
+            'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
             'page' => -1,
             'keyword_check' => ['魔兽争霸'],
         ]);
@@ -76,9 +76,9 @@ final class CrawlerWeiboSearchTest extends TestCase
 
     public function testCanGetEnoughMessageWithPageConfig()
     {
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
-            'keywords' => ['DOTA2'],
+            'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
             'page' => 2,
         ]);
         $crawler->prepareCrawl();
@@ -97,9 +97,9 @@ final class CrawlerWeiboSearchTest extends TestCase
 
     public function testCannotGetEnoughMessageWithImageConfig()
     {
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
-            'keywords' => ['DOTA2'],
+            'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
             'page' => 1,
             'image_check' => 9
         ]);
@@ -111,9 +111,9 @@ final class CrawlerWeiboSearchTest extends TestCase
 
     public function testCannotGetEnoughMessageWithVideoConfig()
     {
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
-            'keywords' => ['DOTA2'],
+            'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
             'page' => 1,
             'video_check' => 1
         ]);
@@ -125,11 +125,11 @@ final class CrawlerWeiboSearchTest extends TestCase
 
     public function testCannotGetEnoughMessageWithKeywordcheckConfig()
     {
-        $crawler = new CrawlerWeiboSearch();
+        $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
-            'keywords' => ['DOTA2'],
+            'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
             'page' => 1,
-            'keyword_check' => ['DOTA'],
+            'keyword_check' => ['#'],
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();

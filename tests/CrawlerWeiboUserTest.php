@@ -99,6 +99,14 @@ final class CrawlerWeiboUserTest extends TestCase
         $crawler->executeCrawl();
 
         $this->assertGreaterThanOrEqual(20,count($crawler->getMessage()));
+        foreach ($crawler->getMessage() as $key => $value) {
+            $this->assertArrayHasKey('text',$value);
+            $this->assertArrayHasKey('user',$value);
+            $this->assertArrayHasKey('created_at',$value);
+            $this->assertArrayHasKey('mid',$value);
+            $this->assertArrayHasKey('bid',$value);
+            $this->assertArrayHasKey('source',$value);
+        }
     }
 
     public function testCannotGetEnoughMessageWithImageConfig()
