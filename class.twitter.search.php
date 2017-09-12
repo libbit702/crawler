@@ -12,29 +12,28 @@ class CrawlerTwitterSearch extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['keywords']) || empty($this->crawl_config['keywords'])) {
-			throw new Exception("keywords required for twitter search");
+		if (!isset($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords required for twitter search");
+		}
+
+		if (empty($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords cannot be empty for twitter search");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for twitter search");
+			throw new InvalidArgumentException("invalid page setting for twitter search");
 		}
-
-		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
-		
-		$this->snoopy->use_gzip = false; // Comment this line if you have php built with zlib
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'https://twitter.com/i/search/timeline?vertical=default&q='.rawurlencode($kw).'&include_available_features=1&include_entities=1';
+				$crawl_url = 'https://twitter.com/i/search/timeline?vertical=default&q='.rawurlencode($kw).'&include_available_features=1&include_entities=1';
 
 				if ($i > 1) {
-					$weibo_url .= '&max_position='.$min_position;
+					$crawl_url .= '&max_position='.$min_position;
 				} else {
 					$min_position_url = 'https://twitter.com/search?vertical=default&q=' . rawurlencode($kw);
-					$this->snoopy->fetch($min_position_url);
-					$min_position_result = $this->snoopy->results;
+					$min_position_result = $this->getRemoteUrlContents($min_position_url);
 					if ($min_position_result) {
 						$min_position_content = str_get_html($min_position_result);
 						$min_position_node = $min_position_content->find('.stream-container', 0);
@@ -44,29 +43,27 @@ class CrawlerTwitterSearch extends CrawlerBase {
 					}
 				}
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
-				
-				if ($this->snoopy->results === null) {
+				$crawl_result = $this->getRemoteUrlContents($crawl_url);
+
+				if ($crawl_result === null) {
 					continue;
 				}
 
-				$weibo_result = $this->snoopy->results;
+				$this->log("请求返回结果:$crawl_result");
 
-				$this->log("请求返回结果:$weibo_result");
+				$message_result = json_decode($crawl_result, true);
 
-				$result = json_decode($weibo_result, true);
-
-				if (!is_array($result)) {
+				if (!is_array($message_result)) {
 					continue;
 				}
 
-				$content = str_get_html($result['items_html']);
+				$content = str_get_html($message_result['items_html']);
 				$item_results = $content->find('li.js-stream-item .js-stream-tweet');
 
-				if (isset($result['min_position'])) {
-					$min_position = $result['min_position'];
+				if (isset($message_result['min_position'])) {
+					$min_position = $message_result['min_position'];
 				}
 				
 				if ($item_results) {
@@ -102,8 +99,7 @@ class CrawlerTwitterSearch extends CrawlerBase {
 						$player = $br->find('.PlayableMedia-player', 0);
 						if ($player) {
 							$video_iframe_url = 'https://twitter.com/i/videos/tweet/'.$obj['item_id'].'?embed_source=clientlib&player_id=0&rpc_init=1';
-							$this->snoopy->fetch($video_iframe_url);
-							$video_result = $this->snoopy->results;
+							$video_result = $this->getRemoteUrlContents($video_iframe_url);
 							if ($video_result) {
 								$video_content = str_get_html($video_result);
 								$video_node = $video_content->find('#playerContainer', 0);
@@ -117,7 +113,7 @@ class CrawlerTwitterSearch extends CrawlerBase {
 							$player = $br->find('.card-type-player', 0);
 							if ($player) {
 								$video_iframe_url = $player->getAttribute('data-card-url');
-								$video_result = $this->snoopy->fetch($video_iframe_url);
+								$video_result = $this->getRemoteUrlContents($video_iframe_url);
 								if ($video_result) {
 									$video_content = str_get_html($video_result);
 									$video_node = $video_content->find('title', 0);
@@ -196,6 +192,33 @@ class CrawlerTwitterSearch extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		print_r($this->crawl_messages);
+		print_r($this->crawl_messages);die();
+	}
+
+	public function getRemoteUrlContents($url) {
+		$result = null;
+		if ($this->crawl_config['url_handler'] == 'curl') {
+			$options = array(
+				CURLOPT_PROXYTYPE => CURLPROXY_HTTP,
+				CURLOPT_USERAGENT => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
+				CURLOPT_SSL_VERIFYPEER =>  false,
+				CURLOPT_SSL_VERIFYHOST => false
+			);
+
+			if (isset($this->crawl_config['proxy_port']) && isset($this->crawl_config['proxy_host'])) {
+				$options[CURLOPT_PROXY] = $this->crawl_config['proxy_host'].':'.$this->crawl_config['proxy_port'];
+			}
+			$result = $this->curl_get($url, $options);
+		} else {
+			$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
+			$this->snoopy->use_gzip = false; // Comment this line if you have php built with zlib
+			if (isset($this->crawl_config['proxy_port']) && isset($this->crawl_config['proxy_host'])) {
+				$this->snoopy->proxy_host = $this->crawl_config['proxy_host'];
+				$this->snoopy->proxy_port = $this->crawl_config['proxy_port'];
+			}
+			$this->snoopy->fetch($url);
+			$result = $this->snoopy->results;
+		}
+		return $result;
 	}
 }
