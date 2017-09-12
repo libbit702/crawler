@@ -36,6 +36,7 @@ abstract class CrawlerBase
 		$default = array(
 			'page' => 1,
 			'debug' => false,
+			'url_handler' => 'snoopy'
 		);
 		$this->crawl_config = array_merge($default, $config);
 	}
@@ -188,4 +189,68 @@ abstract class CrawlerBase
 	public function getMessage() {
 		return $this->crawl_messages;
 	}
+
+	/**
+	 * Send a GET requst using cURL 
+	 * @param string $url to request 
+	 * @param array $options for cURL 
+	 * @return string 
+	 * 
+	 * @access protected
+	 */
+	protected function curl_get($url, array $options = array()) 
+	{    
+	    $defaults = array( 
+	        CURLOPT_URL => $url, 
+	        CURLOPT_HEADER => 0, 
+	        CURLOPT_RETURNTRANSFER => TRUE, 
+	        CURLOPT_TIMEOUT => 30
+	    ); 
+
+	    $ch = curl_init(); 
+	    curl_setopt_array($ch, ($options + $defaults)); 
+	    if( ! $result = curl_exec($ch)) 
+	    { 
+	        trigger_error(curl_error($ch)); 
+	    } 
+	    curl_close($ch); 
+	    return $result; 
+	} 
+
+	/** 
+	* Send a POST requst using cURL 
+	* @param string $url to request 
+	* @param array $post values to send 
+	* @param array $options for cURL
+	* @return string 
+	* 
+	* @access protected
+	*/ 
+	protected function curl_post($url, $post = array(), $options = array()) 
+	{ 
+		$defaults = array( 
+			CURLOPT_POST => 1, 
+			CURLOPT_HEADER => 0, 
+			CURLOPT_URL => $url, 
+			CURLOPT_FRESH_CONNECT => 1, 
+			CURLOPT_RETURNTRANSFER => 1, 
+			CURLOPT_FORBID_REUSE => 1, 
+			CURLOPT_TIMEOUT => 3, 
+			CURLOPT_CONNECTTIMEOUT =>2
+		); 
+
+		$ch = curl_init($url); 
+		curl_setopt_array($ch, $options+$defaults);
+
+		if($post){
+			curl_setopt($ch, CURLOPT_POSTFIELDS, ($post));
+		}
+
+		if( ! $result = curl_exec($ch)) 
+		{  
+			trigger_error(curl_error($ch)); 
+		} 
+		curl_close($ch); 
+		return $result; 
+	} 
 }
