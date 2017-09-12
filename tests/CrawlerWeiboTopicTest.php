@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 require_once(dirname(__FILE__) . "/../class.weibo.topic.php");
 
 /**
- * @covers CrawlerWeiboUser
+ * @covers CrawlerWeiboTopicTest
  */
 final class CrawlerWeiboTopicTest extends TestCase
 {
