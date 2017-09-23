@@ -12,18 +12,25 @@ class CrawlerBilibiliUser extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['ids']) || empty($this->crawl_config['ids'])) {
-			throw new Exception("ids required for bilibili search");
+		if (!isset($this->crawl_config['ids'])) {
+			throw new InvalidArgumentException("user ids required for bilibili user");
+		}
+
+		if (empty($this->crawl_config['ids'])) {
+			throw new InvalidArgumentException("user ids cannot be empty for bilibili user");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for bilibili search");
+			throw new InvalidArgumentException("invalid page setting for bilibili user");
 		}
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
 
 		foreach ($this->crawl_config['ids'] as $ei) {
+			if (!is_numeric($ei)) {
+				throw new InvalidArgumentException("numeric user ids expected for bilibili user");
+			}
 
 			$member_url = 'http://space.bilibili.com/ajax/member/GetInfo';
 			$this->snoopy->referer = 'http://space.bilibili.com/'.$ei.'/';
@@ -56,6 +63,7 @@ class CrawlerBilibiliUser extends CrawlerBase {
 					foreach ($result['data']['vlist'] as $rcc) {
 						$rcc['url_author'] = $member_info['data']['name'];
 						$rcc['pic'] = 'http:' . $rcc['pic'];
+						$rcc['pics'] = [$rcc['pic']];
 						$rcc['created_at_time'] = date('Y-m-d H:i:s', $rcc['created']);
 						$this->crawl_messages[] = $rcc;
 					}
@@ -91,6 +99,6 @@ class CrawlerBilibiliUser extends CrawlerBase {
 	 * 经过过滤后的数据，可以做后续处理
 	 */
 	public function doMessage() {
-		print_r($this->crawl_messages);
+		// print_r($this->crawl_messages);
 	}
 }
