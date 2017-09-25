@@ -12,13 +12,17 @@ class CrawlerTwitterUser extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['ids']) || empty($this->crawl_config['ids'])) {
-			throw new Exception("ids required for twitter user");
+		if (!isset($this->crawl_config['ids'])) {
+			throw new InvalidArgumentException("user ids required for twitter user");
+		}
+
+		if (empty($this->crawl_config['ids'])) {
+			throw new InvalidArgumentException("user ids cannot be empty for twitter user");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for twitter user");
+			throw new InvalidArgumentException("invalid page setting for twitter user");
 		}
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
@@ -27,10 +31,10 @@ class CrawlerTwitterUser extends CrawlerBase {
 
 		foreach ($this->crawl_config['ids'] as $ei) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'https://twitter.com/i/profiles/show/'.$ei.'/timeline/tweets?include_available_features=1&include_entities=1'; 
+				$crawl_url = 'https://twitter.com/i/profiles/show/'.$ei.'/timeline/tweets?include_available_features=1&include_entities=1'; 
 
 				if ($i > 1) {
-					$weibo_url .= '&max_position='.$min_position;
+					$crawl_url .= '&max_position='.$min_position;
 				} else {
 					$min_position_url = 'https://twitter.com/' . $ei;
 					$this->snoopy->fetch($min_position_url);
@@ -44,19 +48,19 @@ class CrawlerTwitterUser extends CrawlerBase {
 					}
 				}
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
+				$this->snoopy->fetch($crawl_url);
 				
 				if ($this->snoopy->results === null) {
 					continue;
 				}
 
-				$weibo_result = $this->snoopy->results;
+				$crawl_result = $this->snoopy->results;
 
-				$this->log("请求返回结果:$weibo_result");
+				$this->log("请求返回结果:$crawl_result");
 
-				$result = json_decode($weibo_result, true);
+				$result = json_decode($crawl_result, true);
 
 				if (!is_array($result)) {
 					continue;
@@ -80,12 +84,11 @@ class CrawlerTwitterUser extends CrawlerBase {
 						}
 						$obj['title'] = '';
 						$img = $br->find('.js-adaptive-photo');
+						$obj['pics'] = array();
 						if ($img) {
-							$obj['pics'] = array();
 							foreach ($img as $ig) {
 								$obj['pics'][] = $ig->getAttribute('data-image-url');
 							}
-							
 						}
 						$obj['author'] = $br->getAttribute('data-screen-name');
 						
@@ -197,6 +200,6 @@ class CrawlerTwitterUser extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		print_r($this->crawl_messages);
+		// print_r($this->crawl_messages);
 	}
 }
