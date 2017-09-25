@@ -30,7 +30,7 @@ abstract class CrawlerBase
 	 * @access public
 	 */
 	public function setConfig($config) {
-		if (!is_array($config) || count($config) == 0) {
+		if (!is_array($config)) {
 			throw new Exception("crawl config required as non-empty array");
 		}
 		$default = array(
