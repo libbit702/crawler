@@ -12,13 +12,17 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['keywords']) || empty($this->crawl_config['keywords'])) {
-			throw new Exception("keywords required for bilibili search");
+		if (!isset($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords required for bilibili search");
+		}
+
+		if (empty($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords cannot be empty for bilibili search");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for bilibili search");
+			throw new InvalidArgumentException("invalid page setting for bilibili search");
 		}
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
@@ -128,6 +132,6 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		print_r($this->crawl_messages);
+		// print_r($this->crawl_messages);
 	}
 }
