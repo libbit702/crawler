@@ -77,8 +77,9 @@ class CrawlerTwitterSearch extends CrawlerBase {
 						}
 						$obj['title'] = '';
 						$img = $br->find('.js-adaptive-photo');
+						$obj['pics'] = array();
 						if ($img) {
-							$obj['pics'] = array();
+							
 							foreach ($img as $ig) {
 								$obj['pics'][] = $ig->getAttribute('data-image-url');
 							}
@@ -192,7 +193,6 @@ class CrawlerTwitterSearch extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		print_r($this->crawl_messages);die();
 	}
 
 	public function getRemoteUrlContents($url) {
