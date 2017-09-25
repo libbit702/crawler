@@ -15,17 +15,25 @@ class CrawlerVlive extends CrawlerBase {
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
 
-		$weibo_url = 'http://www.vlive.tv/upcoming';
+		$crawl_url = 'http://www.vlive.tv/upcoming';
 
 		$date_config = date('Ymd');
 		if (isset($this->crawl_config['date'])) {
-			$weibo_url .= '?d='.$this->crawl_config['date'];
+			$crawl_url .= '?d='.$this->crawl_config['date'];
 			$date_config = $this->crawl_config['date'];
 		}
 
-		$this->log("开始请求地址:$weibo_url");
+		$this->log("开始请求地址:$crawl_url");
 
-		$this->snoopy->fetch($weibo_url);
+		if (isset($this->crawl_config['country'])) {
+			$this->snoopy->cookies['userCountry'] = $this->crawl_config['country'];
+		}
+
+		if (isset($this->crawl_config['offset'])) {
+			$this->snoopy->cookies['timezoneOffset'] = $this->crawl_config['offset'];
+		}
+
+		$this->snoopy->fetch($crawl_url);
 
 		if ($this->snoopy->results === false) {
 			continue;
@@ -41,6 +49,7 @@ class CrawlerVlive extends CrawlerBase {
 			foreach ($item_results as $br) {
 				$obj = array();
 				$videoSeq = $br->getAttribute('data-seq');
+
 				$link_node = $br->find('a._title', 0);
 				$obj['link'] = 'http://www.vlive.tv'.$link_node->getAttribute('href');
 				$obj['title'] = $link_node->innertext();
@@ -48,9 +57,10 @@ class CrawlerVlive extends CrawlerBase {
 				$time_node = $br->find('.time', 0);
 				$obj['time'] = $date_config . ' ' . $time_node->innertext();
 				$obj['created_at_time'] = date('Y-m-d H:i', strtotime($obj['time']));
+
 				$img_node = $br->find('a._videoThumb img', 0); 
+				$obj['pics'] = array();
 				if ($img_node) {
-					$obj['pics'] = array();
 					$obj['pics'][] = $img_node->getAttribute('src');
 				}
 				$author_node = $br->find('em.name', 0);
@@ -102,6 +112,6 @@ class CrawlerVlive extends CrawlerBase {
 	 * 经过过滤后的数据，可以做后续处理
 	 */
 	public function doMessage() {
-		print_r($this->crawl_messages);
+		// print_r($this->crawl_messages);
 	}
 }
