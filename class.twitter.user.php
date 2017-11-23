@@ -152,7 +152,7 @@ class CrawlerTwitterUser extends CrawlerBase {
 				foreach ($this->crawl_messages as $ssk => $ssc) {
 					foreach ($keyword_filter as $kf) {
 						if (mb_strpos($ssc['text'], $kf) !== false) {
-							$this->log('微博正文筛出关键字匹配成功，删除数据:' . print_r($ssc, true));
+							$this->log('twitter正文筛出关键字匹配成功，删除数据:' . print_r($ssc, true));
 							unset($this->crawl_messages[$ssk]);
 						} 
 					}

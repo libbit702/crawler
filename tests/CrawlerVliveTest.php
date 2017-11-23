@@ -46,7 +46,7 @@ final class CrawlerVliveTest extends TestCase
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertEquals(49,count($crawler->getMessage()));
+        $this->assertEquals(48,count($crawler->getMessage()));
         foreach ($crawler->getMessage() as $key => $value) {
             $this->assertArrayHasKey('link',$value);
             $this->assertArrayHasKey('title',$value);

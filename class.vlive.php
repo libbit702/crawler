@@ -36,7 +36,7 @@ class CrawlerVlive extends CrawlerBase {
 		$this->snoopy->fetch($crawl_url);
 
 		if ($this->snoopy->results === false) {
-			continue;
+			return;
 		}
 
 		$content = str_get_html($this->snoopy->results);

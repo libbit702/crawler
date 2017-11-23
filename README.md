@@ -1,18 +1,27 @@
 # crawler
 
+### Prerequisites
+
+* PHP 5.6
+* (Optional)PHPUnit5.7
+* (Optional)PHPUnit4.8
+
 ## 支持站点
 
 | Site | URL | 视频过滤? | 图片数过滤? | 关键词过滤? | 发布时间过滤? |
 | :--: | :-- | :-----: | :-----: | :-----: | :-----: |
 | **Weibo账号** | <http://weibo.com/>    |✓|✓|✓|x|
 | **Weibo搜索** | <http://weibo.com/>    |✓|✓|✓|x|
+| **Weibo话题** | <http://weibo.com/>    |✓|✓|✓|x|
 | **Twitter搜索** | <http://twitter.com/>    |✓|✓|✓|✓|
 | **Twitter账号** | <http://twitter.com/>    |✓|✓|✓|✓|
-| **Instagram搜索** | <https://instagram.com/>    |✓|✓|✓|✓|
-| **Instagram账号** | <https://instagram.com/>    |✓|✓|✓|✓|
-| **Bilibili搜索** | <http://bilibili.tv/>    |x|x|✓|✓|
-| **Bilibili账号** | <http://bilibili.tv/>    |x|x|x|✓|
+| **Instagram搜索** | <https://instagram.com/>    |✓|x|✓|✓|
+| **Instagram账号** | <https://instagram.com/>    |✓|x|✓|✓|
+| **Bilibili搜索** | <http://bilibili.tv/>    |x|x|x|x|
+| **Bilibili账号** | <http://bilibili.tv/>    |x|x|x|x|
+| **Bilibili视频集** | <http://bilibili.tv/>    |x|x|x|x|
 | **Vlive** | <http://www.vlive.tv/>    |x|x|x|✓|
+| **Youtube** | <http://www.youtube.com/>    |x|x|x|✓|
 
 ## 使用说明
 
@@ -32,7 +41,7 @@ $crawler->prepareCrawl();
 $crawler->executeCrawl();
 ```
 
-### 测试用例
+### 测试用例(PHPUnit5.7)
 
 基于PHP5.6.30测试,使用了PHPUnit 5.7 <http://www.phpunit.cn/>
 
@@ -48,22 +57,39 @@ Time: 5.53 seconds, Memory: 14.25MB
 OK (9 tests, 17 assertions)
 ```
 
-### Weibo搜索抓取
+### 测试用例(PHPUnit4.8)
 
-| 参数名称 | 数据类型 | 说明 |
-| :--: | :-- | :-- |
-| keywords |array|检索的关键字|
-| page |int|抓取结果页数|
-| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
-| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
-| video_check |int|设置大于0时，检测微博中是否带有视频数据|
-| image_check |int|设置大于0时，检测微博中图片个数是否满足此处设定|
+基于PHP5.4.41测试,使用了PHPUnit 4.8 <http://www.phpunit.cn/>
+
+```console
+$ phpunit tests_old/CrawlerInstagramUserTestOld
+
+PPHPUnit 4.8.36 by Sebastian Bergmann and contributors.
+
+.........
+
+Time: 9.6 seconds, Memory: 15.25MB
+
+OK (9 tests, 88 assertions)
+```
 
 ### Weibo指定账号数据抓取
 
 | 参数名称 | 数据类型 | 说明 |
 | :--: | :-- | :-- |
 | ids |array|微博话题的id，<http://weibo.com/p/[这部分是话题ID]/super_index>|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+| video_check |int|设置大于0时，检测微博中是否带有视频数据|
+| image_check |int|设置大于0时，检测微博中图片个数是否满足此处设定|
+
+
+### Weibo搜索抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| keywords |array|检索的关键字|
 | page |int|抓取结果页数|
 | keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
@@ -82,6 +108,53 @@ OK (9 tests, 17 assertions)
 | video_check |int|设置大于0时，检测微博中是否带有视频数据|
 | image_check |int|设置大于0时，检测微博中图片个数是否满足此处设定|
 
+
+### Twitter搜索抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| keywords |array|检索的关键字|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+| video_check |int|设置大于0时，检测twitter中是否带有视频数据|
+| image_check |int|设置大于0时，检测twitter中图片个数是否满足此处设定|
+
+
+### Twitter指定账号数据抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| ids |array|twitter用户的ID，<https://twitter.com/i/profiles/show/[这部分是twitter用户的ID]/timeline/tweets?include_available_features=1&include_entities=1>|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+| video_check |int|设置大于0时，检测twitter中是否带有视频数据|
+| image_check |int|设置大于0时，检测twitter中图片个数是否满足此处设定|
+
+
+### Instagram搜索抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| keywords |array|检索的关键字|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+| video_check |int|设置大于0时，检测Instagram中是否带有视频数据|
+
+
+### Instagram指定账号数据抓取
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| ids |array|Instagram用户的ID，<https://www.instagram.com/[这部分是ins用户的ID]/>|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+| video_check |int|设置大于0时，检测Instagram中是否带有视频数据|
+
+
 ### Bilibili检索抓取
 
 | 参数名称 | 数据类型 | 说明 |
@@ -91,6 +164,7 @@ OK (9 tests, 17 assertions)
 | keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
 
+
 ### Bilibili账号抓取
 
 | 参数名称 | 数据类型 | 说明 |
@@ -98,6 +172,21 @@ OK (9 tests, 17 assertions)
 | ids |array|B站Up主的ID|
 | page |int|抓取结果页数|
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+
+
+### Bilibili视频集
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| ids |array|B站视频集的ID|
+
+
+### Youtube
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| ids |array|youtube视频的ID|
+
 
 ### Vlive抓取
 
