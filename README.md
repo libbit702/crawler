@@ -197,6 +197,6 @@ OK (9 tests, 88 assertions)
 | 参数名称 | 数据类型 | 说明 |
 | :--: | :-- | :-- |
 | date |string|参数如20170821,指定vlive数据的日期|
-| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD HH:ii',小于此时间设定的消息会被筛除|
 
 
