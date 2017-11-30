@@ -117,11 +117,11 @@ class CrawlerWeixinSogou extends CrawlerBase {
 	}
 
 	public function doImageCheck() {
-		//B站Up主数据不检测图片
+		//微信搜索数据不检测图片
 	}
 
 	public function doVideoCheck() {
-		//B站Up主数据不检测视频
+		//微信搜索数据不检测视频
 	}
 
 	public function doMessage() {

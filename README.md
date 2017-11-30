@@ -23,6 +23,7 @@
 | **Vlive** | <http://www.vlive.tv/>    |x|x|x|✓|
 | **Youtube** | <http://www.youtube.com/>    |x|x|x|✓|
 | **豆瓣豆列** | <https://m.douban.com/>    |x|x|x|x|
+| **搜狗微信-公众号文章** | <http://weixin.sogou.com/>    |x|x|✓|✓|
 
 ## 使用说明
 
@@ -207,4 +208,14 @@ OK (9 tests, 88 assertions)
 | :--: | :-- | :-- |
 | ids |array|豆列的ID,<https://m.douban.com/doulist/2943106/>|
 | page |int|期望抓取页数,wap页单页25条数据|
+
+
+### 搜狗微信搜索-公众号文章
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| keywords |array|检索关键字|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
 
