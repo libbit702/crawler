@@ -22,6 +22,7 @@
 | **Bilibili视频集** | <http://bilibili.tv/>    |x|x|x|x|
 | **Vlive** | <http://www.vlive.tv/>    |x|x|x|✓|
 | **Youtube** | <http://www.youtube.com/>    |x|x|x|✓|
+| **豆瓣豆列** | <https://m.douban.com/>    |x|x|x|x|
 
 ## 使用说明
 
@@ -199,4 +200,11 @@ OK (9 tests, 88 assertions)
 | date |string|参数如20170821,指定vlive数据的日期|
 | public_time_check |string|消息发布时间,格式为'YYYY-MM-DD HH:ii',小于此时间设定的消息会被筛除|
 
+
+### 豆瓣豆列
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| ids |array|豆列的ID,<https://m.douban.com/doulist/2943106/>|
+| page |int|期望抓取页数,wap页单页25条数据|
 
