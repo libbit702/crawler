@@ -1,7 +1,7 @@
 # crawler
 
 ### 能做什么
-抓取各信息平台的工具，基于php开发，核心机制源于对网站请求的抓包和网页结构的解析处理，因此也可使用其他框架实现,如python的pyspider,scrapy.以下各平台抓取功能可能随着网站改版或接口下线导致不可用，建议使用tests中的测试用例快速检测
+抓取各信息平台的工具，基于php开发，核心机制源于对网站请求的抓包和网页结构的解析处理，因此也可使用其他框架实现,如python的pyspider,scrapy.以下各平台抓取功能可能随着网站改版或接口下线导致不可用，建议使用tests/tests_old中的测试用例快速检测
 
 ### Prerequisites
 
@@ -27,6 +27,7 @@
 | **Youtube** | <http://www.youtube.com/>    |x|x|x|✓|
 | **豆瓣豆列** | <https://m.douban.com/>    |x|x|x|x|
 | **搜狗微信-公众号文章** | <http://weixin.sogou.com/>    |x|x|✓|✓|
+| **音悦台搜索** | <http://yinyuetai.com/>    |x|x|✓|✓|
 
 ## 使用说明
 
@@ -214,6 +215,16 @@ OK (9 tests, 88 assertions)
 
 
 ### 搜狗微信搜索-公众号文章
+
+| 参数名称 | 数据类型 | 说明 |
+| :--: | :-- | :-- |
+| keywords |array|检索关键字|
+| page |int|抓取结果页数|
+| keyword_check |array|筛除关键字，抓取结果中不得出现此参数指定的文字|
+| public_time_check |string|消息发布时间,格式为'YYYY-MM-DD',小于此时间设定的消息会被筛除|
+
+
+### 音悦台检索抓取
 
 | 参数名称 | 数据类型 | 说明 |
 | :--: | :-- | :-- |
