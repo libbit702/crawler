@@ -193,6 +193,7 @@ class CrawlerTwitterSearch extends CrawlerBase {
 	}
 
 	public function doMessage() {
+		$this->log('抓取结果:' . print_r($this->crawl_messages, true));
 	}
 
 	public function getRemoteUrlContents($url) {

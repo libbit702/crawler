@@ -132,6 +132,6 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 	}
 
 	public function doMessage() {
-		// print_r($this->crawl_messages);
+		$this->log('抓取结果:' . print_r($this->crawl_messages, true));
 	}
 }

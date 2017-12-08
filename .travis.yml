@@ -4,5 +4,8 @@ php:
   - hhvm # on Trusty only
   - nightly
 
-before_script: composer require --dev phpunit/phpunit ^5.7
-script: phpunit tests
+before_script: 
+  - composer require --dev phpunit/phpunit 5.7
+  # composer require --dev phpunit/phpunit 4.8
+script: 
+  - phpunit tests

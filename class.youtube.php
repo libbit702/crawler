@@ -81,6 +81,6 @@ class CrawlerYoutube extends CrawlerBase {
 	 * 经过过滤后的数据，可以做后续处理
 	 */
 	public function doMessage() {
-		// print_r($this->crawl_messages);
+		$this->log('抓取结果:' . print_r($this->crawl_messages, true));
 	}
 }
