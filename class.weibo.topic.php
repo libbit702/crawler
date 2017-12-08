@@ -102,7 +102,7 @@ class CrawlerWeiboTopic extends CrawlerBase {
 				if (isset($ssc['page_info']) && $ssc['page_info']['type'] == 'video') {
 					continue;
 				}
-				if (count($ssc['pics']) < $this->crawl_config['image_check']) {
+				if (isset($ssc['pics']) && count($ssc['pics']) < $this->crawl_config['image_check']) {
 					$this->log('不满足图片设置，删除数据:' . print_r($ssc, true));
 					unset($this->crawl_messages[$ssk]);
 				}

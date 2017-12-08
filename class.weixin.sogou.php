@@ -50,21 +50,28 @@ class CrawlerWeixinSogou extends CrawlerBase {
 
 					$img_box = $node->find('.img-box', 0);
 					$txt_box = $node->find('.txt-box', 0);
+					$img_d_box = $node->find('.img-d', 0);
 
-					$img = $img_box->find('img', 0);
-					if ($img) {
-						$obj['pics'] = [];
-						$obj['pics'][] = htmlspecialchars_decode($img->getAttribute('src'));
-					}
-
-					$link = $img_box->find('a', 0);
-					if ($link) {
-						$obj['link'] = htmlspecialchars_decode($link->getAttribute('href'));
+					if ($img_box) {
+						$img = $img_box->find('img', 0);
+						if ($img) {
+							$obj['pics'] = [];
+							$obj['pics'][] = htmlspecialchars_decode($img->getAttribute('src'));
+						}
+					} else {
+						$imgs = $img_d_box->find('img');
+						if ($imgs) {
+							$obj['pics'] = [];
+							foreach ($imgs as $img) {
+								$obj['pics'][] = htmlspecialchars_decode($img->getAttribute('src'));
+							}
+						}
 					}
 
 					$title = $txt_box->find('h3 a', 0);
 					if ($title) {
 						$obj['title'] = strip_tags($title->innertext());
+						$obj['link'] = htmlspecialchars_decode($title->getAttribute('href'));
 					}
 
 					$info = $txt_box->find('.txt-info', 0);

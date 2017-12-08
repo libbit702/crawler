@@ -78,9 +78,10 @@ final class CrawlerWeixinSogouTest extends TestCase
     {
         $crawler = new CrawlerWeixinSogou();
         $crawler->setConfig([
-            'keywords' => ['大兴区区长辞职'],
+            'keywords' => ['dota2'],
             'keyword_check' => [],
             'page' => 2,
+            // 'debug' => true,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
