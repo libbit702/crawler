@@ -1,5 +1,4 @@
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd">
     <testsuites>
         <testsuite name="Crawler Test Suite">
             <directory suffix="Test.php" phpVersion="5.6.0" phpVersionOperator=">=">./tests/</directory>
@@ -8,10 +7,6 @@
     <filter>
 	  <whitelist processUncoveredFilesFromWhitelist="true">
 	    <directory suffix=".php">./</directory>
-	    <exclude>
-	      <directory suffix=".php">./lib/</directory>
-	      <file>test.php</file>
-	    </exclude>
 	  </whitelist>
 	</filter>
 </phpunit>
