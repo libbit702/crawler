@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once(dirname(__FILE__) . "/../class.weixin.sogou.php");
+require 'common.php';
 
 /**
  * @covers CrawlerWeixinSogou

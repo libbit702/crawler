@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once(dirname(__FILE__) . "/../class.weibo.topic.php");
+require 'common.php';
 
 /**
  * @covers CrawlerWeiboTopicTest

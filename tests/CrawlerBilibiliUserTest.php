@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once(dirname(__FILE__) . "/../class.bilibili.user.php");
+require 'common.php';
 
 /**
  * @covers CrawlerBilibiliUser

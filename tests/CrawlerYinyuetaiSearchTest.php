@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once(dirname(__FILE__) . "/../class.yinyuetai.search.php");
+require 'common.php';
 
 /**
  * @covers CrawlerYinyuetaiSearch
