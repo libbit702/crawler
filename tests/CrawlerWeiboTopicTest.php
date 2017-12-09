@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 require 'common.php';
 
 /**
- * @covers CrawlerWeiboTopicTest
+ * @covers CrawlerWeiboTopic
  */
 final class CrawlerWeiboTopicTest extends TestCase
 {

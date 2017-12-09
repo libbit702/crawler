@@ -6,7 +6,6 @@ require 'common.php';
 
 /**
  * @covers CrawlerTwitterSearch
- * 国外服务器只有php5.4,所以使用了PHPUnit4.8编写了测试用例
  */
 final class CrawlerTwitterSearchTest extends TestCase
 {

@@ -5,25 +5,25 @@ use PHPUnit\Framework\TestCase;
 require 'common.php';
 
 /**
- * @covers CrawlerTwitterUser
+ * @covers CrawlerInstagramSearch
  */
-final class CrawlerTwitterUserTest extends TestCase
+final class CrawlerInstagramSearchTest extends TestCase
 {
-    public function testCanBeCreatedFromTwitterUser()
+    public function testCanBeCreatedFromTwitterSearch()
     {
         $this->assertInstanceOf(
-            CrawlerTwitterUser::Class,
-            new CrawlerTwitterUser()
+            CrawlerInstagramSearch::Class,
+            new CrawlerInstagramSearch()
         );
     }
 
     /**
      * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage user ids required for twitter user
+     * @expectedExceptionMessage keywords required for instagram search
      */
     public function testKeywordsCannotBeNull()
     {
-        $crawler = new CrawlerTwitterUser();
+        $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
          'keyword_check' => ['魔兽争霸'],
         ]);
@@ -33,13 +33,13 @@ final class CrawlerTwitterUserTest extends TestCase
 
     /**
      * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage user ids cannot be empty for twitter user
+     * @expectedExceptionMessage keywords cannot be empty for instagram search
      */
     public function testKeywordsCannotBeEmpty()
     {
-        $crawler = new CrawlerTwitterUser();
+        $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
-            'ids' => [],
+            'keywords' => [],
             'keyword_check' => ['魔兽争霸'],
         ]);
         $crawler->prepareCrawl();
@@ -48,13 +48,13 @@ final class CrawlerTwitterUserTest extends TestCase
 
     /**
      * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage invalid page setting for twitter user
+     * @expectedExceptionMessage invalid page setting for instagram search
      */
     public function testPageCannotBeZero()
     {
-        $crawler = new CrawlerTwitterUser();
+        $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
-            'ids' => ['KARD_Official'],
+            'keywords' => ['DOTA2'],
             'page' => 0,
             'keyword_check' => ['魔兽争霸'],
         ]);
@@ -64,13 +64,13 @@ final class CrawlerTwitterUserTest extends TestCase
 
     /**
      * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage invalid page setting for twitter user
+     * @expectedExceptionMessage invalid page setting for instagram search
      */
     public function testPageCannotBeNegative()
     {
-        $crawler = new CrawlerTwitterUser();
+        $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
-            'ids' => ['KARD_Official'],
+            'keywords' => ['DOTA2'],
             'page' => -1,
             'keyword_check' => ['魔兽争霸'],
         ]);
@@ -80,15 +80,15 @@ final class CrawlerTwitterUserTest extends TestCase
 
     public function testCanGetEnoughMessageWithPageConfig()
     {
-        $crawler = new CrawlerTwitterUser();
+        $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
-            'ids' => ['KARD_Official'],
+            'keywords' => ['exo'],
             'page' => 1,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertEquals(20,count($crawler->getMessage()));
+        $this->assertEquals(21,count($crawler->getMessage()));
         foreach ($crawler->getMessage() as $key => $value) {
             $this->assertArrayHasKey('item_id',$value);
             $this->assertArrayHasKey('link',$value);
@@ -98,46 +98,32 @@ final class CrawlerTwitterUserTest extends TestCase
         }
     }
 
-    public function testCannotGetEnoughMessageWithImageConfig()
-    {
-        $crawler = new CrawlerTwitterUser();
-        $crawler->setConfig([
-            'ids' => ['KARD_Official'],
-            'page' => 1,
-            'image_check' => 9
-        ]);
-        $crawler->prepareCrawl();
-        $crawler->executeCrawl();
-
-        $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
-    }
-
     public function testCannotGetEnoughMessageWithVideoConfig()
     {
-        $crawler = new CrawlerTwitterUser();
+        $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
-            'ids' => ['KARD_Official'],
+            'keywords' => ['exo'],
             'page' => 1,
             'video_check' => 1
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
+        $this->assertLessThanOrEqual(21,count($crawler->getMessage()));
     }
 
     public function testCannotGetEnoughMessageWithKeywordcheckConfig()
     {
-        $crawler = new CrawlerTwitterUser();
+        $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
-            'ids' => ['KARD_Official'],
+            'keywords' => ['exo'],
             'page' => 1,
-            'keyword_check' => ['DOTA'],
+            'keyword_check' => ['exo'],
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
+        $this->assertLessThanOrEqual(21,count($crawler->getMessage()));
     }
 
 }
