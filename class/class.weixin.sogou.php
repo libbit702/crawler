@@ -123,6 +123,7 @@ class CrawlerWeixinSogou extends CrawlerBase {
 		}
 	}
 
+	/*
 	public function doImageCheck() {
 		//微信搜索数据不检测图片
 	}
@@ -130,6 +131,7 @@ class CrawlerWeixinSogou extends CrawlerBase {
 	public function doVideoCheck() {
 		//微信搜索数据不检测视频
 	}
+	*/
 
 	public function doMessage() {
 		$this->log('抓取结果:' . print_r($this->crawl_messages, true));

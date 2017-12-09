@@ -63,6 +63,7 @@ class CrawlerYoutube extends CrawlerBase {
 		}
 	}
 
+	/*
 	public function doKeywordCheck() {
 		//Youtube数据不检测关键字
 	}
@@ -78,6 +79,7 @@ class CrawlerYoutube extends CrawlerBase {
 	public function doVideoCheck() {
 		//Youtube数据不检测视频
 	}
+	*/
 
 	/**
 	 * 经过过滤后的数据，可以做后续处理

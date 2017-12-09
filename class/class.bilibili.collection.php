@@ -67,6 +67,7 @@ class CrawlerBilibiliCollection extends CrawlerBase {
 		}
 	}
 
+	/*
 	public function doKeywordCheck() {
 		//B站视频集数据不检测关键字
 	}
@@ -82,6 +83,7 @@ class CrawlerBilibiliCollection extends CrawlerBase {
 	public function doVideoCheck() {
 		//B站视频集数据不检测视频
 	}
+	*/
 
 	/**
 	 * 经过过滤后的数据，可以做后续处理

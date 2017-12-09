@@ -85,10 +85,6 @@ class CrawlerVlive extends CrawlerBase {
 		}
 	}
 
-	public function doKeywordCheck() {
-		//B站Up主数据不检测关键字
-	}
-
 	public function doPublicTimeCheck() {
 		if (isset($this->crawl_config['public_time_check'])) {
 			foreach ($this->crawl_messages as $ssk => $ssc) {
@@ -100,6 +96,11 @@ class CrawlerVlive extends CrawlerBase {
 		}
 	}
 
+	/*
+	public function doKeywordCheck() {
+		//B站Up主数据不检测关键字
+	}
+
 	public function doImageCheck() {
 		//B站Up主数据不检测图片
 	}
@@ -107,7 +108,8 @@ class CrawlerVlive extends CrawlerBase {
 	public function doVideoCheck() {
 		//B站Up主数据不检测视频
 	}
-
+	*/
+	
 	/**
 	 * 经过过滤后的数据，可以做后续处理
 	 */

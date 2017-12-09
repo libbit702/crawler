@@ -87,6 +87,7 @@ class CrawlerBilibiliUser extends CrawlerBase {
 		}
 	}
 
+	/*
 	public function doImageCheck() {
 		//B站Up主数据不检测图片
 	}
@@ -94,6 +95,7 @@ class CrawlerBilibiliUser extends CrawlerBase {
 	public function doVideoCheck() {
 		//B站Up主数据不检测视频
 	}
+	*/
 
 	/**
 	 * 经过过滤后的数据，可以做后续处理

@@ -88,6 +88,7 @@ class CrawlerYinyuetaiSearch extends CrawlerBase {
 		}
 	}
 
+	/*
 	public function doImageCheck() {
 		//yinyuetai数据不检测图片
 	}
@@ -95,6 +96,7 @@ class CrawlerYinyuetaiSearch extends CrawlerBase {
 	public function doVideoCheck() {
 		//yinyuetai数据不检测视频
 	}
+	*/
 
 	public function doMessage() {
 		$this->log('抓取结果:' . print_r($this->crawl_messages, true));

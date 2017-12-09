@@ -116,7 +116,7 @@ final class CrawlerTwitterUserTest extends TestCase
     {
         $crawler = new CrawlerTwitterUser();
         $crawler->setConfig([
-            'ids' => ['KARD_Official'],
+            'ids' => ['5REDVELVET'],
             'page' => 1,
             'video_check' => 1
         ]);

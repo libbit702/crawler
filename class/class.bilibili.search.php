@@ -123,6 +123,7 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 		}
 	}
 
+	/*
 	public function doImageCheck() {
 		//B站Up主数据不检测图片
 	}
@@ -130,7 +131,8 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 	public function doVideoCheck() {
 		//B站Up主数据不检测视频
 	}
-
+	*/
+	
 	public function doMessage() {
 		$this->log('抓取结果:' . print_r($this->crawl_messages, true));
 	}

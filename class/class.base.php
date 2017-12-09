@@ -107,7 +107,7 @@ abstract class CrawlerBase
 	 * @access public
 	 */
 	public function doKeywordCheck() {
-		echo __METHOD__ . "\n";
+		$this->log( __METHOD__ );
 	}
 
 	/**
@@ -116,7 +116,7 @@ abstract class CrawlerBase
 	 * @access public
 	 */
 	public function doLikeCheck() {
-		echo __METHOD__ . "\n";
+		$this->log( __METHOD__ );
 	}
 
 	/**
@@ -125,7 +125,7 @@ abstract class CrawlerBase
 	 * @access public
 	 */
 	public function doPublicTimeCheck() {
-		echo __METHOD__ . "\n";
+		$this->log( __METHOD__ );
 	}
 
 	/**
@@ -134,7 +134,7 @@ abstract class CrawlerBase
 	 * @access public
 	 */
 	public function doImageCheck() {
-		echo __METHOD__ . "\n";
+		$this->log( __METHOD__ );
 	}
 
 	/**
@@ -143,7 +143,7 @@ abstract class CrawlerBase
 	 * @access public
 	 */
 	public function doVideoCheck() {
-		echo __METHOD__ . "\n";
+		$this->log( __METHOD__ );
 	}
 
 	/**
