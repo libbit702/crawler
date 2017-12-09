@@ -17,11 +17,12 @@ final class CrawlerWeixinSogouTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage keywords required for weixin sogou
+     */
     public function testKeywordsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords required for weixin sogou");
-
         $crawler = new CrawlerWeixinSogou();
         $crawler->setConfig([
          'keyword_check' => ['魔兽争霸'],
@@ -30,11 +31,12 @@ final class CrawlerWeixinSogouTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage keywords cannot be empty for weixin sogou
+     */
     public function testKeywordsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords cannot be empty for weixin sogou");
-
         $crawler = new CrawlerWeixinSogou();
         $crawler->setConfig([
             'keywords' => [],
@@ -44,11 +46,12 @@ final class CrawlerWeixinSogouTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for weixin sogou
+     */
     public function testPageCannotBeZero()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weixin sogou");
-
         $crawler = new CrawlerWeixinSogou();
         $crawler->setConfig([
             'keywords' => ['大兴区区长辞职'],
@@ -59,11 +62,12 @@ final class CrawlerWeixinSogouTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for weixin sogou
+     */
     public function testPageCannotBeNegative()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weixin sogou");
-
         $crawler = new CrawlerWeixinSogou();
         $crawler->setConfig([
             'keywords' => ['大兴区区长辞职'],

@@ -9,7 +9,7 @@ require 'common.php';
  */
 final class CrawlerInstagramSearchTest extends TestCase
 {
-    public function testCanBeCreatedFromTwitterSearch()
+    public function testCanBeCreatedFromInstagramSearch()
     {
         $this->assertInstanceOf(
             CrawlerInstagramSearch::Class,
@@ -95,7 +95,7 @@ final class CrawlerInstagramSearchTest extends TestCase
             $this->assertArrayHasKey('owner',$value);
             $this->assertArrayHasKey('code',$value);
             $this->assertArrayHasKey('is_video',$value);
-            
+
             $this->assertArrayHasKey('link',$value);
             $this->assertArrayHasKey('created_at_time',$value);
         }

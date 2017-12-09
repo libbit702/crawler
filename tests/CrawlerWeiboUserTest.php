@@ -17,11 +17,12 @@ final class CrawlerWeiboUserTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage user ids required for weibo user
+     */
     public function testIdsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("user ids required for weibo user");
-
         $crawler = new CrawlerWeiboUser();
         $crawler->setConfig([
          'keyword_check' => ['魔兽争霸'],
@@ -30,11 +31,12 @@ final class CrawlerWeiboUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage user ids cannot be empty for weibo user
+     */
     public function testIdsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("user ids cannot be empty for weibo user");
-
         $crawler = new CrawlerWeiboUser();
         $crawler->setConfig([
             'ids' => [],
@@ -44,11 +46,12 @@ final class CrawlerWeiboUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage numeric user ids expected for weibo user
+     */
     public function testIdsMustBeNumeric()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("numeric user ids expected for weibo user");
-
         $crawler = new CrawlerWeiboUser();
         $crawler->setConfig([
             'ids' => ['qiyiguanbo'],
@@ -58,11 +61,12 @@ final class CrawlerWeiboUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for weibo user
+     */
     public function testPageCannotBeZero()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weibo user");
-
         $crawler = new CrawlerWeiboUser();
         $crawler->setConfig([
             'ids' => ['1731986465'],
@@ -73,11 +77,12 @@ final class CrawlerWeiboUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for weibo user
+     */
     public function testPageCannotBeNegative()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weibo user");
-
         $crawler = new CrawlerWeiboUser();
         $crawler->setConfig([
             'ids' => ['1731986465'],
@@ -87,6 +92,7 @@ final class CrawlerWeiboUserTest extends TestCase
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
     }
+
 
     public function testCanGetEnoughMessageWithPageConfig()
     {

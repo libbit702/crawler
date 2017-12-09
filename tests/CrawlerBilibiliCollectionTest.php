@@ -17,11 +17,12 @@ final class CrawlerBilibiliCollectionTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage collection ids required for bilibili collection
+     */
     public function testIdsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("collection ids required for bilibili collection");
-
         $crawler = new CrawlerBilibiliCollection();
         $crawler->setConfig([
          'ids' => null
@@ -30,11 +31,12 @@ final class CrawlerBilibiliCollectionTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage collection ids cannot be empty for bilibili collection
+     */
     public function testIdsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("collection ids cannot be empty for bilibili collection");
-
         $crawler = new CrawlerBilibiliCollection();
         $crawler->setConfig([
             'ids' => []

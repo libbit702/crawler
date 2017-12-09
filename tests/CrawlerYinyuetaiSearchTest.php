@@ -17,11 +17,12 @@ final class CrawlerYinyuetaiSearchTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage keywords required for yinyuetai search
+     */
     public function testKeywordsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords required for yinyuetai search");
-
         $crawler = new CrawlerYinyuetaiSearch();
         $crawler->setConfig([
          'keyword_check' => ['防弹少年团'],
@@ -30,11 +31,12 @@ final class CrawlerYinyuetaiSearchTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage keywords cannot be empty for yinyuetai search
+     */
     public function testKeywordsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords cannot be empty for yinyuetai search");
-
         $crawler = new CrawlerYinyuetaiSearch();
         $crawler->setConfig([
             'keywords' => [],
@@ -44,11 +46,12 @@ final class CrawlerYinyuetaiSearchTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for yinyuetai search
+     */
     public function testPageCannotBeZero()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for yinyuetai search");
-
         $crawler = new CrawlerYinyuetaiSearch();
         $crawler->setConfig([
             'keywords' => ['防弹少年团'],
@@ -59,11 +62,12 @@ final class CrawlerYinyuetaiSearchTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for yinyuetai search
+     */
     public function testPageCannotBeNegative()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for yinyuetai search");
-
         $crawler = new CrawlerYinyuetaiSearch();
         $crawler->setConfig([
             'keywords' => ['防弹少年团'],

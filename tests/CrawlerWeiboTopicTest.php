@@ -17,11 +17,12 @@ final class CrawlerWeiboTopicTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage topic ids required for weibo topic
+     */
     public function testIdsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("topic ids required for weibo topic");
-
         $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
          'keyword_check' => ['魔兽争霸'],
@@ -30,11 +31,12 @@ final class CrawlerWeiboTopicTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage topic ids cannot be empty for weibo topic
+     */
     public function testIdsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("topic ids cannot be empty for weibo topic");
-
         $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
             'ids' => [],
@@ -44,11 +46,12 @@ final class CrawlerWeiboTopicTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for weibo topic
+     */
     public function testPageCannotBeZero()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weibo topic");
-
         $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
             'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],
@@ -59,11 +62,12 @@ final class CrawlerWeiboTopicTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for weibo topic
+     */
     public function testPageCannotBeNegative()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for weibo topic");
-
         $crawler = new CrawlerWeiboTopic();
         $crawler->setConfig([
             'ids' => ['10080819f7ff3e4d2c90e22c54592c2e6dd950'],

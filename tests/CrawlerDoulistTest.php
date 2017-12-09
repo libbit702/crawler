@@ -17,11 +17,12 @@ final class CrawlerDoulistTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage doulist ids required for douban list
+     */
     public function testIdsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("doulist ids required for douban list");
-
         $crawler = new CrawlerDoulist();
         $crawler->setConfig([
          'ids' => null
@@ -30,11 +31,12 @@ final class CrawlerDoulistTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage doulist ids cannot be empty for douban list
+     */
     public function testIdsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("doulist ids cannot be empty for douban list");
-
         $crawler = new CrawlerDoulist();
         $crawler->setConfig([
             'ids' => []
@@ -43,11 +45,12 @@ final class CrawlerDoulistTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for douban list
+     */
     public function testPageCannotBeZero()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for douban list");
-
         $crawler = new CrawlerDoulist();
         $crawler->setConfig([
             'ids' => ['2943106'],
@@ -57,11 +60,12 @@ final class CrawlerDoulistTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for douban list
+     */
     public function testPageCannotBeNegative()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for douban list");
-
         $crawler = new CrawlerDoulist();
         $crawler->setConfig([
             'ids' => ['2943106'],

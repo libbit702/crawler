@@ -17,11 +17,12 @@ final class CrawlerBilibiliSearchTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage keywords required for bilibili search
+     */
     public function testKeywordsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords required for bilibili search");
-
         $crawler = new CrawlerBilibiliSearch();
         $crawler->setConfig([
          'keyword_check' => ['魔兽争霸'],
@@ -30,11 +31,12 @@ final class CrawlerBilibiliSearchTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage keywords cannot be empty for bilibili search
+     */
     public function testKeywordsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("keywords cannot be empty for bilibili search");
-
         $crawler = new CrawlerBilibiliSearch();
         $crawler->setConfig([
             'keywords' => [],
@@ -44,11 +46,12 @@ final class CrawlerBilibiliSearchTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for bilibili search
+     */
     public function testPageCannotBeZero()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for bilibili search");
-
         $crawler = new CrawlerBilibiliSearch();
         $crawler->setConfig([
             'keywords' => ['DOTA2'],
@@ -59,11 +62,12 @@ final class CrawlerBilibiliSearchTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for bilibili search
+     */
     public function testPageCannotBeNegative()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for bilibili search");
-
         $crawler = new CrawlerBilibiliSearch();
         $crawler->setConfig([
             'keywords' => ['DOTA2'],

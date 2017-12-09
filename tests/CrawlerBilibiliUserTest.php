@@ -17,11 +17,12 @@ final class CrawlerBilibiliUserTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage user ids required for bilibili user
+     */
     public function testIdsCannotBeNull()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("user ids required for bilibili user");
-
         $crawler = new CrawlerBilibiliUser();
         $crawler->setConfig([
          'keyword_check' => ['魔兽争霸'],
@@ -30,11 +31,12 @@ final class CrawlerBilibiliUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage user ids cannot be empty for bilibili user
+     */
     public function testIdsCannotBeEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("user ids cannot be empty for bilibili user");
-
         $crawler = new CrawlerBilibiliUser();
         $crawler->setConfig([
             'ids' => [],
@@ -44,11 +46,12 @@ final class CrawlerBilibiliUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage numeric user ids expected for bilibili user
+     */
     public function testIdsMustBeNumeric()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("numeric user ids expected for bilibili user");
-
         $crawler = new CrawlerBilibiliUser();
         $crawler->setConfig([
             'ids' => ['a120371896'],
@@ -58,11 +61,12 @@ final class CrawlerBilibiliUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for bilibili user
+     */
     public function testPageCannotBeZero()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for bilibili user");
-
         $crawler = new CrawlerBilibiliUser();
         $crawler->setConfig([
             'ids' => ['120371896'],
@@ -73,11 +77,12 @@ final class CrawlerBilibiliUserTest extends TestCase
         $crawler->executeCrawl();
     }
 
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage invalid page setting for bilibili user
+     */
     public function testPageCannotBeNegative()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid page setting for bilibili user");
-
         $crawler = new CrawlerBilibiliUser();
         $crawler->setConfig([
             'ids' => ['120371896'],
