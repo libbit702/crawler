@@ -99,7 +99,7 @@ class CrawlerInstagramSearch extends CrawlerBase {
 			if (!empty($keyword_filter)) {
 				foreach ($this->crawl_messages as $ssk => $ssc) {
 					foreach ($keyword_filter as $kf) {
-						if (mb_strpos($ssc['captain'], $kf) !== false) {
+						if (mb_strpos($ssc['caption'], $kf) !== false) {
 							$this->log('正文筛出关键字匹配成功，删除数据:' . print_r($ssc, true));
 							unset($this->crawl_messages[$ssk]);
 						} 
