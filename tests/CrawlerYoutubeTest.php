@@ -48,7 +48,6 @@ final class CrawlerYoutubeTest extends TestCase
         $crawler = new CrawlerYoutube();
         $crawler->setConfig([
             'ids' => ['Rnbo016gdRg','cdyY-C4KH1w'],
-            'debug' => 1,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
