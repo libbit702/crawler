@@ -2,14 +2,13 @@
 
 [![Build Status](https://travis-ci.org/libbit702/crawler.svg?branch=master)](https://travis-ci.org/libbit702/crawler)  [![codecov](https://codecov.io/gh/libbit702/crawler/branch/master/graph/badge.svg)](https://codecov.io/gh/libbit702/crawler)  ![](https://img.shields.io/badge/language-php-blue.svg)
 
-### 能做什么
-抓取各信息平台的工具，基于php开发，核心机制源于对网站请求的抓包和网页结构的解析处理，因此也可使用其他框架实现,如python的pyspider,scrapy.以下各平台抓取功能可能随着网站改版或接口下线导致不可用，建议使用tests/tests_old中的测试用例快速检测
+### 简介
+抓取各信息平台的工具，核心机制源于对网站请求的抓包和网页结构的解析处理，各平台抓取功能可能随着网站改版或接口下线导致不可用，测试方面已添加[travis-ci](https://travis-ci.org) 和[codecov](https://codecov.io), 建议fork后使用travis快速验证有效性
 
 ### Prerequisites
 
 * PHP 5.6
-* (Optional)PHPUnit5.7
-* (Optional)PHPUnit4.8
+* PHPUnit 5.7
 
 ## 支持站点
 
