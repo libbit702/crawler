@@ -36,6 +36,8 @@ class CrawlerYoutube extends CrawlerBase {
 
 			$crawl_result = $this->snoopy->results;
 			
+			$this->log("请求返回结果:$crawl_result");
+			
 			preg_match('#ytInitialData"\]([\s\S]*?)window\["ytInitialPlayerResponse#', $crawl_result, $matches);
 			$initialData = trim(str_replace(' = ', '', $matches[1]));
 			$initialData = substr($initialData, 0, -1);
