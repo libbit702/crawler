@@ -8,6 +8,9 @@
     <filter>
 	  <whitelist>
 	    <directory suffix=".php">./class/</directory>
+        <exclude>
+            <file>./class/class.base.php</file>
+        </exclude>
 	  </whitelist>
 	</filter>
 </phpunit>
