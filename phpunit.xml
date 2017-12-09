@@ -2,10 +2,7 @@
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd">
     <testsuites>
         <testsuite name="Crawler Test Suite">
-            
-<!-- <directory suffix="Test.php" phpVersion="5.6.0" phpVersionOperator=">=">./tests/</directory> -->
-            <file>./tests/CrawlerWeiboTopicTest.php</file>
-            <file>./tests/CrawlerInstagramSearchTest.php</file>
+            <directory suffix="Test.php" phpVersion="5.6.0" phpVersionOperator=">=">./tests/</directory> 
         </testsuite>
     </testsuites>
     <filter>
