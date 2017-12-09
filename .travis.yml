@@ -5,7 +5,12 @@ php:
   # - nightly
 
 before_script: 
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
   - composer require phpunit/phpunit 5.7
-  # composer require --dev phpunit/phpunit 4.8
+
 script: 
-  - phpunit tests
+  - vendor/bin/phpunit --coverage-clover=coverage.xml tests
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
