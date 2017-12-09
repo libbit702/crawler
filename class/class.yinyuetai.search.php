@@ -29,12 +29,12 @@ class CrawlerYinyuetaiSearch extends CrawlerBase {
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'https://so.yinyuetai.com/search/video-search?_api=get.videoList&keyword='.rawurlencode($kw).'&pageIndex=1&pageSize=10&page='.$i; 
+				$crawl_url = 'http://so.yinyuetai.com/search/video-search?_api=get.videoList&keyword='.rawurlencode($kw).'&pageIndex=1&pageSize=10&page='.$i; 
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
-				
+				$this->snoopy->fetch($crawl_url);
+
 				if ($this->snoopy->results === null) {
 					continue;
 				}

@@ -85,6 +85,7 @@ final class CrawlerYinyuetaiSearchTest extends TestCase
             'keywords' => ['防弹少年团'],
             'keyword_check' => [],
             'page' => 2,
+            // 'debug' => 1,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
