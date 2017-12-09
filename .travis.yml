@@ -6,10 +6,12 @@ php:
 
 before_script: 
   - composer require phpunit/phpunit 5.7
-  - composer require satooshi/php-coveralls
+  - composer require php-coveralls/php-coveralls '^2.0'
 
 script: 
   - vendor/bin/phpunit --coverage-clover=coverage.xml tests
 
 after_success:
+  - travis_retry php vendor/bin/coveralls
+  - travis_retry php vendor/bin/coveralls -v
   - bash <(curl -s https://codecov.io/bash)
