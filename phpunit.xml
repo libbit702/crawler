@@ -5,4 +5,9 @@
             <directory suffix="Test.php" phpVersion="5.6.0" phpVersionOperator=">=">./tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+	  <whitelist processUncoveredFilesFromWhitelist="true">
+	    <directory suffix=".php">./tests/</directory>
+	  </whitelist>
+	</filter>
 </phpunit>
