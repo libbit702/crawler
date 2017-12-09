@@ -83,7 +83,7 @@ final class CrawlerInstagramSearchTest extends TestCase
         $crawler = new CrawlerInstagramSearch();
         $crawler->setConfig([
             'keywords' => ['exo'],
-            'page' => 1,
+            'page' => 2,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
@@ -108,6 +108,20 @@ final class CrawlerInstagramSearchTest extends TestCase
             'keywords' => ['exo'],
             'page' => 1,
             'video_check' => 1
+        ]);
+        $crawler->prepareCrawl();
+        $crawler->executeCrawl();
+
+        $this->assertLessThanOrEqual(50,count($crawler->getMessage()));
+    }
+
+    public function testCannotGetEnoughMessageWithPublicTimeConfig()
+    {
+        $crawler = new CrawlerInstagramSearch();
+        $crawler->setConfig([
+            'keywords' => ['exo'],
+            'page' => 1,
+            'public_time_check' => date('Y-m-d H:i:s', time() - 120),
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();

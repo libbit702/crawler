@@ -126,6 +126,20 @@ final class CrawlerTwitterSearchTest extends TestCase
         $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
     }
 
+    public function testCannotGetEnoughMessageWithPublicTimeConfig()
+    {
+        $crawler = new CrawlerTwitterSearch();
+        $crawler->setConfig([
+            'keywords' => ['exo'],
+            'page' => 1,
+            'public_time_check' => date('Y-m-d H:i:s', time() - 60),
+        ]);
+        $crawler->prepareCrawl();
+        $crawler->executeCrawl();
+
+        $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
+    }
+
     public function testCannotGetEnoughMessageWithKeywordcheckConfig()
     {
         $crawler = new CrawlerTwitterSearch();

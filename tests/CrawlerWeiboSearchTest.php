@@ -82,8 +82,9 @@ final class CrawlerWeiboSearchTest extends TestCase
     {
         $crawler = new CrawlerWeiboSearch();
         $crawler->setConfig([
-            'keywords' => ['DOTA2'],
+            'keywords' => ['视频'],
             'page' => 2,
+            'debug' => 1,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();

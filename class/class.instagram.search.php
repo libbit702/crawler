@@ -120,9 +120,10 @@ class CrawlerInstagramSearch extends CrawlerBase {
 		}
 	}
 
+	/*
 	public function doImageCheck() {
 		//Instagram数据不检测图片，不过有些ins的图片个数是大于1的，视频也是大于1的
-	}
+	}*/
 
 	public function doVideoCheck() {
 		if (isset($this->crawl_config['video_check'])) {

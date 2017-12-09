@@ -115,4 +115,17 @@ final class CrawlerBilibiliUserTest extends TestCase
         }
     }
 
+    public function testCanGetEnoughMessageWithPublicTimeConfig()
+    {
+        $crawler = new CrawlerBilibiliUser();
+        $crawler->setConfig([
+            'ids' => ['120371896'],
+            'page' => 1,
+            'public_time' => '2017-09-25'
+        ]);
+        $crawler->prepareCrawl();
+        $crawler->executeCrawl();
+
+        $this->assertLessThanOrEqual(10,count($crawler->getMessage()));
+    }
 }
