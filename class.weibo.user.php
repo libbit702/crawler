@@ -53,6 +53,8 @@ class CrawlerWeiboUser extends CrawlerBase {
 					continue;
 				}
 
+				$message_result = $message_result['data'];
+				
 				if (isset($message_result['cards'])) {
 					foreach ($message_result['cards'] as $rcc) {
 						if ($rcc['card_type'] == 9) {

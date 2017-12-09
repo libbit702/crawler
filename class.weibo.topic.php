@@ -49,6 +49,8 @@ class CrawlerWeiboTopic extends CrawlerBase {
 					continue;
 				}
 
+				$message_result = $message_result['data'];
+				
 				if (isset($message_result['cards'])) {
 					foreach ($message_result['cards'] as $rc) {
 						if ($rc['card_type'] !== 11) {
