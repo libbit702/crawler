@@ -7,8 +7,9 @@
 
 ### Prerequisites
 
-* PHP 5.6
-* PHPUnit 5.7
+* [PHP 5.6](http://php.net)
+* [PHPUnit 5.7](http://www.phpunit.cn/) - Optional
+* [php-code-coverage](https://github.com/sebastianbergmann/php-code-coverage) - Optional
 
 ## 支持站点
 
@@ -48,37 +49,9 @@ $crawler->prepareCrawl();
 $crawler->executeCrawl();
 ```
 
-### 测试用例(PHPUnit5.7)
+### 测试用例
 
-基于PHP5.6.30测试,使用了PHPUnit 5.7 <http://www.phpunit.cn/>
-
-```console
-$ phpunit tests/CrawlerWeiboSearchTest
-
-PHPUnit 5.7.21 by Sebastian Bergmann and contributors.
-
-.........                                                           9 / 9 (100%)
-
-Time: 5.53 seconds, Memory: 14.25MB
-
-OK (9 tests, 17 assertions)
-```
-
-### 测试用例(PHPUnit4.8)
-
-基于PHP5.4.41测试,使用了PHPUnit 4.8 <http://www.phpunit.cn/>
-
-```console
-$ phpunit tests_old/CrawlerInstagramUserTestOld
-
-PPHPUnit 4.8.36 by Sebastian Bergmann and contributors.
-
-.........
-
-Time: 9.6 seconds, Memory: 15.25MB
-
-OK (9 tests, 88 assertions)
-```
+建议使用travis-ci
 
 ### Weibo指定账号数据抓取
 
