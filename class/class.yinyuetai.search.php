@@ -29,7 +29,7 @@ class CrawlerYinyuetaiSearch extends CrawlerBase {
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'http://so.yinyuetai.com/search/video-search?_api=get.videoList&keyword='.rawurlencode($kw).'&pageIndex=1&pageSize=10&page='.$i; 
+				$weibo_url = 'https://so.yinyuetai.com/search/video-search?_api=get.videoList&keyword='.rawurlencode($kw).'&pageIndex=1&pageSize=10&page='.$i; 
 
 				$this->log("开始请求地址:$weibo_url");
 
