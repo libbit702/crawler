@@ -88,7 +88,7 @@ final class CrawlerInstagramSearchTest extends TestCase
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertEquals(21,count($crawler->getMessage()));
+        $this->assertGreaterThanOrEqual(50,count($crawler->getMessage()));
         foreach ($crawler->getMessage() as $key => $value) {
             $this->assertArrayHasKey('item_id',$value);
             $this->assertArrayHasKey('link',$value);
@@ -109,7 +109,7 @@ final class CrawlerInstagramSearchTest extends TestCase
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(21,count($crawler->getMessage()));
+        $this->assertLessThanOrEqual(50,count($crawler->getMessage()));
     }
 
     public function testCannotGetEnoughMessageWithKeywordcheckConfig()
@@ -123,7 +123,7 @@ final class CrawlerInstagramSearchTest extends TestCase
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(21,count($crawler->getMessage()));
+        $this->assertLessThanOrEqual(50,count($crawler->getMessage()));
     }
 
 }

@@ -12,13 +12,17 @@ class CrawlerInstagramSearch extends CrawlerBase {
 	 * 网络IO，执行抓取
 	 */
 	public function doCrawl() {
-		if (!isset($this->crawl_config['keywords']) || empty($this->crawl_config['keywords'])) {
-			throw new Exception("keywords required for instagram search");
+		if (!isset($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords required for instagram search");
+		}
+
+		if (empty($this->crawl_config['keywords'])) {
+			throw new InvalidArgumentException("keywords cannot be empty for instagram search");
 		}
 
 		$page = $this->crawl_config['page'];
 		if ($page <= 0) {
-			throw new Exception("invalid page setting for instagram search");
+			throw new InvalidArgumentException("invalid page setting for instagram search");
 		}
 
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
@@ -41,12 +45,21 @@ class CrawlerInstagramSearch extends CrawlerBase {
 						break;
 					}
 
-					// $this->log("请求返回结果:".$this->snoopy->results);
+					$this->log("请求返回结果:".$this->snoopy->results);
 
 					preg_match('#_sharedData = ([\s\S]+?)</script>#', $this->snoopy->results, $matches);
 					$config = json_decode(trim($matches[1], ';'), true);
 
-					$ins = $this->parseRenderData($config);
+					$nodes = $config['entry_data']['TagPage'][0]['tag']['media']['nodes'];
+					$top_posts = $config['entry_data']['TagPage'][0]['tag']['top_posts']['nodes'];
+
+					if ($top_posts) {
+						foreach ($top_posts as $key => $value) {
+							array_unshift($nodes, $value);
+						}
+					}
+
+					$ins = $this->parseRenderData($nodes);
 					
 					if (empty($ins)) {
 						break;
@@ -66,13 +79,12 @@ class CrawlerInstagramSearch extends CrawlerBase {
 						break;
 					}
 
-					// $this->log("请求返回结果:".$this->snoopy->results);
+					$this->log("请求返回结果:".$this->snoopy->results);
 
 					$result = json_decode($this->snoopy->results, true);
 
-					foreach ($result['data']['hashtag']['edge_hashtag_to_media']['edges'] as $node) {
-						$this->crawl_messages[] = $node['node'];
-					}
+					$nodes = $this->parseRenderData($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
+					$this->crawl_messages[] = array_merge($this->crawl_messages, $nodes);
 					
 					$loaded_count += count($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
 					$last_id = $result['data']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor'];
@@ -87,7 +99,7 @@ class CrawlerInstagramSearch extends CrawlerBase {
 			if (!empty($keyword_filter)) {
 				foreach ($this->crawl_messages as $ssk => $ssc) {
 					foreach ($keyword_filter as $kf) {
-						if (mb_strpos($ssc['text'], $kf) !== false) {
+						if (mb_strpos($ssc['captain'], $kf) !== false) {
 							$this->log('正文筛出关键字匹配成功，删除数据:' . print_r($ssc, true));
 							unset($this->crawl_messages[$ssk]);
 						} 
@@ -127,18 +139,8 @@ class CrawlerInstagramSearch extends CrawlerBase {
 		$this->log('抓取结果:' . print_r($this->crawl_messages, true));
 	}
 
-	private function parseRenderData($config){
-		$nodes = $config['entry_data']['TagPage'][0]['tag']['media']['nodes'];
-		$top_posts = $config['entry_data']['TagPage'][0]['tag']['top_posts']['nodes'];
-
-		if ($top_posts) {
-			foreach ($top_posts as $key => $value) {
-				array_unshift($nodes, $value);
-			}
-		}
-
+	private function parseRenderData($nodes){
 		$fake_data = array();
-
 		foreach ($nodes as $node) {
 			$node['link'] = 'https://www.instagram.com/p/'.$node['code'].'/';
 			if ($node['is_video']) {
@@ -150,6 +152,7 @@ class CrawlerInstagramSearch extends CrawlerBase {
 				$video = json_decode($video_content, true);
 				$node['video'] = $video;
 			} 
+			$node['created_at_time'] = date('Y-m-d H:i:s', $node['date']);
 			$fake_data[] = $node;
 		}
 		return $fake_data;
