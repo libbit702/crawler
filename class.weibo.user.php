@@ -54,7 +54,7 @@ class CrawlerWeiboUser extends CrawlerBase {
 				}
 
 				$message_result = $message_result['data'];
-				
+
 				if (isset($message_result['cards'])) {
 					foreach ($message_result['cards'] as $rcc) {
 						if ($rcc['card_type'] == 9) {
@@ -101,7 +101,7 @@ class CrawlerWeiboUser extends CrawlerBase {
 				if (isset($ssc['page_info']) && $ssc['page_info']['type'] == 'video') {
 					continue;
 				}
-				if (count($ssc['pics']) < $this->crawl_config['image_check']) {
+				if (!isset($ssc['pics']) || count($ssc['pics']) < $this->crawl_config['image_check']) {
 					$this->log('不满足图片设置，删除数据:' . print_r($ssc, true));
 					unset($this->crawl_messages[$ssk]);
 				}
