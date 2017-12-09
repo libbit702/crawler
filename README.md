@@ -1,6 +1,9 @@
 # crawler
 
 [![Build Status](https://travis-ci.org/libbit702/crawler.svg?branch=master)](https://travis-ci.org/libbit702/crawler)
+
+[![codecov](https://codecov.io/gh/libbit702/crawler/branch/master/graph/badge.svg)](https://codecov.io/gh/libbit702/crawler)
+
 ![](https://img.shields.io/badge/language-php-blue.svg)
 
 ### 能做什么
