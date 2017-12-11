@@ -88,8 +88,8 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					$result = json_decode($this->snoopy->results, true);
 
 					$nodes = $this->parseRenderData($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
-print_r($nodes);
-					$this->crawl_messages[] = array_merge($this->crawl_messages, $nodes);
+
+					$this->crawl_messages = array_merge($this->crawl_messages, $nodes);
 
 					$loaded_count += count($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
 					$last_id = $result['data']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor'];
