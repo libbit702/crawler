@@ -69,7 +69,10 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					$last_id = $config['entry_data']['TagPage'][0]['tag']['media']['page_info']['end_cursor'];
 					$loaded_count = count($config['entry_data']['TagPage'][0]['tag']['media']['nodes']);
 				} else {
-					$crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => $i * 12 - $loaded_count, 'after' => $last_id)));
+					// $crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => $i * 12 - $loaded_count, 'after' => $last_id)));
+
+					// "first" param generation unknown, Inspired by https://github.com/rmrezarp/crawl/blob/18a54e3b66250e8e825c9586bcb4d6ba54df73ba/source/social%20media/get_instagram.py#L299
+					$crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => 10, 'after' => $last_id)));
 
 					$this->log("开始请求地址:$crawl_url");
 
