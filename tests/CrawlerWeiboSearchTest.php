@@ -84,7 +84,7 @@ final class CrawlerWeiboSearchTest extends TestCase
         $crawler->setConfig([
             'keywords' => ['视频'],
             'page' => 2,
-            'debug' => 1,
+            // 'debug' => 1,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
