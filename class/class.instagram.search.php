@@ -34,11 +34,11 @@ class CrawlerInstagramSearch extends CrawlerBase {
 			$loaded_count = 0;
 			for ($i=1; $i <= $page; $i++) { 
 				if ($i == 1) {
-					$weibo_url = 'https://www.instagram.com/explore/tags/'.rawurlencode($kw).'/';
+					$crawl_url = 'https://www.instagram.com/explore/tags/'.rawurlencode($kw).'/';
 
-					$this->log("开始请求地址:$weibo_url");
+					$this->log("开始请求地址:$crawl_url");
 
-					$this->snoopy->fetch($weibo_url);
+					$this->snoopy->fetch($crawl_url);
 
 					// 如果第一页没有拿到数据，就无法获取第二页的数据
 					if ($this->snoopy->results === null) {
@@ -69,11 +69,11 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					$last_id = $config['entry_data']['TagPage'][0]['tag']['media']['page_info']['end_cursor'];
 					$loaded_count = count($config['entry_data']['TagPage'][0]['tag']['media']['nodes']);
 				} else {
-					$weibo_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => $i * 12 - $loaded_count, 'after' => $last_id)));
+					$crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => $i * 12 - $loaded_count, 'after' => $last_id)));
 
-					$this->log("开始请求地址:$weibo_url");
+					$this->log("开始请求地址:$crawl_url");
 
-					$this->snoopy->fetch($weibo_url);
+					$this->snoopy->fetch($crawl_url);
 
 					if ($this->snoopy->results === null) {
 						break;

@@ -29,11 +29,11 @@ class CrawlerWeixinSogou extends CrawlerBase {
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'http://weixin.sogou.com/weixin?type=2&ie=utf8&s_from=hotnews&query='.rawurlencode($kw).'&page='.$i; 
+				$crawl_url = 'http://weixin.sogou.com/weixin?type=2&ie=utf8&s_from=hotnews&query='.rawurlencode($kw).'&page='.$i; 
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
+				$this->snoopy->fetch($crawl_url);
 				
 				if ($this->snoopy->results === null) {
 					continue;

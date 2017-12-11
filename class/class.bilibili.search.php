@@ -29,11 +29,11 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'http://search.bilibili.com/ajax_api/video?keyword='.rawurlencode($kw).'&page='.$i; 
+				$crawl_url = 'http://search.bilibili.com/ajax_api/video?keyword='.rawurlencode($kw).'&page='.$i; 
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
+				$this->snoopy->fetch($crawl_url);
 				
 				if ($this->snoopy->results === null) {
 					continue;

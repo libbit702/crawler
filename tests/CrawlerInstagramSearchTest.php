@@ -84,6 +84,7 @@ final class CrawlerInstagramSearchTest extends TestCase
         $crawler->setConfig([
             'keywords' => ['exo'],
             'page' => 2,
+            'debug' => 1,
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();

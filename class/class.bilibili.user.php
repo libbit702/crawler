@@ -39,11 +39,11 @@ class CrawlerBilibiliUser extends CrawlerBase {
 			$member_info = json_decode($member_info, true);
 
 			for ($i=1; $i <= $page; $i++) { 
-				$weibo_url = 'http://space.bilibili.com/ajax/member/getSubmitVideos?mid='.$ei.'&pagesize=20&tid=0&page='.$i;
+				$crawl_url = 'http://space.bilibili.com/ajax/member/getSubmitVideos?mid='.$ei.'&pagesize=20&tid=0&page='.$i;
 
-				$this->log("开始请求地址:$weibo_url");
+				$this->log("开始请求地址:$crawl_url");
 
-				$this->snoopy->fetch($weibo_url);
+				$this->snoopy->fetch($crawl_url);
 				
 				if ($this->snoopy->results === null) {
 					continue;
