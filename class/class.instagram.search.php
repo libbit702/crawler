@@ -74,6 +74,9 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					// "first" param generation unknown, Inspired by https://github.com/rmrezarp/crawl/blob/18a54e3b66250e8e825c9586bcb4d6ba54df73ba/source/social%20media/get_instagram.py#L299
 					$crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => 10, 'after' => $last_id)));
 
+					echo $crawl_url;
+					
+					
 					$this->log("开始请求地址:$crawl_url");
 
 					$this->snoopy->fetch($crawl_url);
@@ -87,7 +90,6 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					$result = json_decode($this->snoopy->results, true);
 
 					$nodes = $this->parseRenderData($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
-					echo $crawl_url;
 					print_r($nodes);
 					$this->crawl_messages[] = array_merge($this->crawl_messages, $nodes);
 					
