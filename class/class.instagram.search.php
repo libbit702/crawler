@@ -146,7 +146,7 @@ class CrawlerInstagramSearch extends CrawlerBase {
 	private function parseRenderData($nodes){
 		$fake_data = array();
 		foreach ($nodes as $node) {
-			$node['link'] = 'https://www.instagram.com/p/'.$node['code'].'/';
+			$node['link'] = 'https://www.instagram.com/p/'.($node['code'] ? $node['code'] : $node['shortcode']).'/';
 			if ($node['is_video']) {
 				$this->snoopy->fetch($node['link'] . '?__a=1');
 				$video_content = $this->snoopy->results;
