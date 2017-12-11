@@ -94,9 +94,7 @@ final class CrawlerInstagramSearchTest extends TestCase
             $this->assertArrayHasKey('id',$value);
             $this->assertArrayHasKey('caption',$value);
             $this->assertArrayHasKey('owner',$value);
-            $this->assertArrayHasKey('code',$value);
             $this->assertArrayHasKey('is_video',$value);
-
             $this->assertArrayHasKey('link',$value);
             $this->assertArrayHasKey('created_at_time',$value);
         }
