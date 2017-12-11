@@ -153,7 +153,10 @@ class CrawlerInstagramSearch extends CrawlerBase {
 			} else {
 				$node['created_at_time'] = date('Y-m-d H:i:s', $node['date']);
 			}
-			print_r($node);
+			if (empty($node['id'])) {
+				print_r($node);
+			}
+			
 			$node['link'] = 'https://www.instagram.com/p/'.(isset($node['code']) ? $node['code'] : $node['shortcode']).'/';
 			if ($node['is_video']) {
 				$this->snoopy->fetch($node['link'] . '?__a=1');
