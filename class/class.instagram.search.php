@@ -149,6 +149,9 @@ class CrawlerInstagramSearch extends CrawlerBase {
 		foreach ($nodes as $node) {
 			if (isset($node['node'])) {
 				$node = $node['node'];
+				$node['created_at_time'] = date('Y-m-d H:i:s', $node['taken_at_timestamp']);
+			} else {
+				$node['created_at_time'] = date('Y-m-d H:i:s', $node['date']);
 			}
 			$node['link'] = 'https://www.instagram.com/p/'.(isset($node['code']) ? $node['code'] : $node['shortcode']).'/';
 			if ($node['is_video']) {
@@ -160,7 +163,6 @@ class CrawlerInstagramSearch extends CrawlerBase {
 				$video = json_decode($video_content, true);
 				$node['video'] = $video;
 			} 
-			$node['created_at_time'] = date('Y-m-d H:i:s', $node['date']);
 			$fake_data[] = $node;
 		}
 		return $fake_data;
