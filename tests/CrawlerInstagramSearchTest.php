@@ -90,11 +90,8 @@ final class CrawlerInstagramSearchTest extends TestCase
         $crawler->executeCrawl();
 
         $this->assertGreaterThanOrEqual(50,count($crawler->getMessage()));
+        
         foreach ($crawler->getMessage() as $key => $value) {
-
-            if (!isset($value['id'])) {
-                print_r($value);
-            }
             $this->assertArrayHasKey('id',$value);
             $this->assertArrayHasKey('owner',$value);
             $this->assertArrayHasKey('is_video',$value);

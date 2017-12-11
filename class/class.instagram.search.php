@@ -66,6 +66,7 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					}
 
 					$this->crawl_messages = array_merge($this->crawl_messages,$ins);
+					print_r(array_keys($this->getMessage()));
 					$last_id = $config['entry_data']['TagPage'][0]['tag']['media']['page_info']['end_cursor'];
 					$loaded_count = count($config['entry_data']['TagPage'][0]['tag']['media']['nodes']);
 				} else {
@@ -89,7 +90,7 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					$nodes = $this->parseRenderData($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
 
 					$this->crawl_messages[] = array_merge($this->crawl_messages, $nodes);
-					
+					print_r(array_keys($this->getMessage()));
 					$loaded_count += count($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
 					$last_id = $result['data']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor'];
 				}		
