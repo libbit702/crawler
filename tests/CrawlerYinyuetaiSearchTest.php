@@ -115,4 +115,18 @@ final class CrawlerYinyuetaiSearchTest extends TestCase
         $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
     }
 
+    public function testCannotGetEnoughMessageWithPublicTimecheckConfig()
+    {
+        $crawler = new CrawlerYinyuetaiSearch();
+        $crawler->setConfig([
+            'keywords' => ['防弹少年团'],
+            'page' => 1,
+            'public_time_check' => '2017-12-01',
+        ]);
+        $crawler->prepareCrawl();
+        $crawler->executeCrawl();
+
+        $this->assertLessThanOrEqual(10,count($crawler->getMessage()));
+    }
+
 }

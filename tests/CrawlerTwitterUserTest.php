@@ -140,4 +140,18 @@ final class CrawlerTwitterUserTest extends TestCase
         $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
     }
 
+    public function testCannotGetEnoughMessageWithPublicTimecheckConfig()
+    {
+        $crawler = new CrawlerTwitterUser();
+        $crawler->setConfig([
+            'ids' => ['KARD_Official'],
+            'page' => 1,
+            'public_time_check' => date('Y-m-d', time() - 86400),
+        ]);
+        $crawler->prepareCrawl();
+        $crawler->executeCrawl();
+
+        $this->assertLessThanOrEqual(20,count($crawler->getMessage()));
+    }
+
 }
