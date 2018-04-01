@@ -29,7 +29,7 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$crawl_url = 'https://search.bilibili.com/ajax_api/video?keyword='.rawurlencode($kw).'&page='.$i; 
+				$crawl_url = 'https://search.bilibili.com/api/search?search_type=video&keyword='.rawurlencode($kw).'&page='.$i; 
 
 				$this->log("开始请求地址:$crawl_url");
 
@@ -45,50 +45,26 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 
 				$result = json_decode($weibo_result, true);
 
-				if (!is_array($result) || !isset($result['html'])) {
+				if (!is_array($result) || !isset($result['result'])) {
 					continue;
 				}
 
-				$content = str_get_html($result['html']);
-				$nodes = $content->find('li');
+				
+				$nodes = $result['result'];
 				foreach ($nodes as $node) {
 					$obj = array();
 
-					$ahref = $node->find('a', 0);
-					$obj['link'] = 'http:' . $ahref->getAttribute('href');
-					list($obj['link'],) = explode('?', $obj['link']);
+					$obj['link'] = $node['arcurl'];
+					$obj['title'] = $node['title'];
 
-					$obj['title'] = $ahref->getAttribute('title');
+					$obj['pics'] = array();
+					$obj['pics'][] = 'https://'.$node['pic'];
 
-					$img = $node->find('img', 0);
-					if ($img) {
-						$obj['pics'] = array();
-						if ($img->getAttribute('src')) {
-							$obj['pics'][] = 'http:' . $img->getAttribute('src');
-						} else {
-							$obj['pics'][] = 'http:' . $img->getAttribute('data-src');
-						}
-						
-					}
-
-					$info = $node->find('.tags', 0);
-					$created_at = $info->find('span.time', 0);
-					if ($created_at) {
-						$created_at = trim(strip_tags($created_at->innertext()));
-						$obj['created_at_time'] = $created_at;
-					}
-
-					$url_author = $info->find('a.up-name', 0);
-					if ($url_author) {
-						$obj['url_author'] = $url_author->innertext();
-						$obj['author_link'] = 'http:' . $url_author->getAttribute('href');
-						list($obj['author_link'],) = explode('?', $obj['author_link']);
-					}
-
-					$playtime = $info->find('.watch-num', 0);
-					if ($playtime) {
-						$obj['playtime'] = trim(strip_tags($playtime->innertext()));
-					}
+					
+					$obj['created_at_time'] = date('Y-m-d', $node['pubdate']);
+					$obj['url_author'] = $node['author'];
+					$obj['author_link'] = 'https://space.bilibili.com/'.$node['mid'];
+					$obj['playtime'] = $node['duration'];
 					
 					$this->crawl_messages[] = $obj;
 				}

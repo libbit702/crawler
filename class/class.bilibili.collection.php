@@ -23,7 +23,7 @@ class CrawlerBilibiliCollection extends CrawlerBase {
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
 
 		foreach ($this->crawl_config['ids'] as $ei) {
-			$crawl_url = 'https://www.bilibili.com/video/'.$ei.'/';
+			$crawl_url = 'http://www.bilibili.com/video/'.$ei.'';
 
 			$this->log("开始请求地址:$crawl_url");
 
@@ -37,27 +37,27 @@ class CrawlerBilibiliCollection extends CrawlerBase {
 
 			$this->log("请求返回结果:$crawl_result");
 
-			$content = str_get_html($crawl_result);
-			$metas = $content->find('head meta');
-			$url_author = '';
-			foreach ($metas as $m) {
-				if ($m->getAttribute('name') == 'author') {
-					$url_author = $m->getAttribute('content');
-				}
-			}
-			$cover_image = $content->find('img.cover_image', 0);
-			if (empty($cover_image)) {
-				return;
+			preg_match('#<script>window.__INITIAL_STATE__=(.*?);\(function#', $crawl_result, $matches);
+
+			if (!isset($matches[1]) || empty($matches[1])) {
+				continue;
 			}
 
-			$cover_image = 'http:' . $cover_image->getAttribute('src');
-			$vlist = $content->find('#dedepagetitles option');
+			$matches[1] = json_decode($matches[1],true);
+
+			$video_data = $matches[1];
+			
+			$url_author = $video_data['upData']['name'];
+			$cover_image = $video_data['videoData']['pic'];
+
+			$vlist = $video_data['videoData']['pages'];
+
 			if (count($vlist) > 0) {
 				foreach ($vlist as $node) {
 					$rcc = array();
 					$rcc['url_author'] = $url_author;
-					$rcc['link'] = 'http://www.bilibili.com' . $node->getAttribute('value');
-					$rcc['title'] = $node->innertext();
+					$rcc['link'] = 'http://www.bilibili.com/video/av' . $video_data['aid'] . '?p=' . $node['page'];
+					$rcc['title'] = $node['part'];
 					$rcc['pics'] = array();
 					$rcc['pics'][] = $cover_image;
 					$this->crawl_messages[] = $rcc;
