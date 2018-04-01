@@ -104,7 +104,7 @@ final class CrawlerWeiboUserTest extends TestCase
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
 
-        $this->assertGreaterThanOrEqual(20,count($crawler->getMessage()));
+        $this->assertGreaterThanOrEqual(18,count($crawler->getMessage()));
         foreach ($crawler->getMessage() as $key => $value) {
             $this->assertArrayHasKey('text',$value);
             $this->assertArrayHasKey('user',$value);
