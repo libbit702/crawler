@@ -23,7 +23,7 @@ class CrawlerBilibiliCollection extends CrawlerBase {
 		$this->snoopy->agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
 
 		foreach ($this->crawl_config['ids'] as $ei) {
-			$crawl_url = 'http://www.bilibili.com/video/'.$ei.'/';
+			$crawl_url = 'https://www.bilibili.com/video/'.$ei.'/';
 
 			$this->log("开始请求地址:$crawl_url");
 

@@ -29,7 +29,7 @@ class CrawlerBilibiliSearch extends CrawlerBase {
 
 		foreach ($this->crawl_config['keywords'] as $kw) {
 			for ($i=1; $i <= $page; $i++) { 
-				$crawl_url = 'http://search.bilibili.com/ajax_api/video?keyword='.rawurlencode($kw).'&page='.$i; 
+				$crawl_url = 'https://search.bilibili.com/ajax_api/video?keyword='.rawurlencode($kw).'&page='.$i; 
 
 				$this->log("开始请求地址:$crawl_url");
 
