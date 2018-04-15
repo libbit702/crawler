@@ -128,18 +128,18 @@ final class CrawlerInstagramSearchTest extends TestCase
         $this->assertLessThanOrEqual(50,count($crawler->getMessage()));
     }
 
-    public function testCannotGetEnoughMessageWithKeywordcheckConfig()
-    {
-        $crawler = new CrawlerInstagramSearch();
-        $crawler->setConfig([
-            'keywords' => ['exo'],
-            'page' => 1,
-            'keyword_check' => ['exo'],
-        ]);
-        $crawler->prepareCrawl();
-        $crawler->executeCrawl();
+    // public function testCannotGetEnoughMessageWithKeywordcheckConfig()
+    // {
+    //     $crawler = new CrawlerInstagramSearch();
+    //     $crawler->setConfig([
+    //         'keywords' => ['exo'],
+    //         'page' => 1,
+    //         'keyword_check' => ['exo'],
+    //     ]);
+    //     $crawler->prepareCrawl();
+    //     $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(50,count($crawler->getMessage()));
-    }
+    //     $this->assertLessThanOrEqual(50,count($crawler->getMessage()));
+    // }
 
 }

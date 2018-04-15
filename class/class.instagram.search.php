@@ -47,11 +47,11 @@ class CrawlerInstagramSearch extends CrawlerBase {
 
 					$this->log("请求返回结果:".$this->snoopy->results);
 
-					preg_match('#_sharedData = ([\s\S]+?)</script>#', $this->snoopy->results, $matches);
+					preg_match('#_sharedData = ([\s\S]+?);</script>#', $this->snoopy->results, $matches);
 					$config = json_decode(trim($matches[1], ';'), true);
 
-					$nodes = $config['entry_data']['TagPage'][0]['tag']['media']['nodes'];
-					$top_posts = $config['entry_data']['TagPage'][0]['tag']['top_posts']['nodes'];
+					$nodes = $config['entry_data']['TagPage']["0"]['graphql']['hashtag']['edge_hashtag_to_media']['edges'];
+					$top_posts = $config['entry_data']['TagPage']["0"]['graphql']['hashtag']['edge_hashtag_to_top_posts']['edges'];
 
 					if ($top_posts) {
 						foreach ($top_posts as $key => $value) {
@@ -66,14 +66,14 @@ class CrawlerInstagramSearch extends CrawlerBase {
 					}
 
 					$this->crawl_messages = array_merge($this->crawl_messages,$ins);
-
-					$last_id = $config['entry_data']['TagPage'][0]['tag']['media']['page_info']['end_cursor'];
-					$loaded_count = count($config['entry_data']['TagPage'][0]['tag']['media']['nodes']);
+					
+					$last_id = $config['entry_data']['TagPage']["0"]['graphql']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor'];
+					// $loaded_count = count($config['entry_data']['TagPage'][0]['tag']['media']['nodes']);
 				} else {
 					// $crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => $i * 12 - $loaded_count, 'after' => $last_id)));
 
 					// "first" param generation unknown, Inspired by https://github.com/rmrezarp/crawl/blob/18a54e3b66250e8e825c9586bcb4d6ba54df73ba/source/social%20media/get_instagram.py#L299
-					$crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17875800862117404&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => 10, 'after' => $last_id)));
+					$crawl_url = 'https://www.instagram.com/graphql/query/?query_hash=ded47faa9a1aaded10161a2ff32abb6b&variables='.rawurlencode(json_encode(array('tag_name' => $kw, 'first' => 10, 'after' => $last_id)));
 
 					$this->log("开始请求地址:$crawl_url");
 
@@ -91,7 +91,7 @@ class CrawlerInstagramSearch extends CrawlerBase {
 
 					$this->crawl_messages = array_merge($this->crawl_messages, $nodes);
 
-					$loaded_count += count($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
+					// $loaded_count += count($result['data']['hashtag']['edge_hashtag_to_media']['edges']);
 					$last_id = $result['data']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor'];
 				}		
 			}
@@ -156,15 +156,15 @@ class CrawlerInstagramSearch extends CrawlerBase {
 			}
 			
 			$node['link'] = 'https://www.instagram.com/p/'.(isset($node['code']) ? $node['code'] : $node['shortcode']).'/';
-			if ($node['is_video']) {
-				$this->snoopy->fetch($node['link'] . '?__a=1');
-				$video_content = $this->snoopy->results;
-				if ($video_content === null) {
-					continue;
-				}
-				$video = json_decode($video_content, true);
-				$node['video'] = $video;
-			} 
+			// if ($node['is_video']) {
+			// 	$this->snoopy->fetch($node['link'] . '?__a=1');
+			// 	$video_content = $this->snoopy->results;
+			// 	if ($video_content === null) {
+			// 		continue;
+			// 	}
+			// 	$video = json_decode($video_content, true);
+			// 	$node['video'] = $video;
+			// } 
 			$fake_data[] = $node;
 		}
 		return $fake_data;
