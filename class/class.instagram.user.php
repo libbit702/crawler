@@ -52,13 +52,14 @@ class CrawlerInstagramUser extends CrawlerBase {
 					$config = json_decode(trim($matches[1], ';'), true);
 					
 					$nodes = $config['entry_data']['ProfilePage']["0"]['graphql']['user']['edge_owner_to_timeline_media']['edges'];
+					
 					// $top_posts = $config['entry_data']['TagPage'][0]['tag']['top_posts']['nodes'];
-					// print_r($nodes);die();
-					if ($top_posts) {
-						foreach ($top_posts as $key => $value) {
-							array_unshift($nodes, $value);
-						}
-					}
+
+					// if ($top_posts) {
+					// 	foreach ($top_posts as $key => $value) {
+					// 		array_unshift($nodes, $value);
+					// 	}
+					// }
 
 					$ins = $this->parseRenderData($nodes);
 					
@@ -83,7 +84,7 @@ class CrawlerInstagramUser extends CrawlerBase {
 					$this->log("请求返回结果:".$this->snoopy->results);
 
 					$result = json_decode($this->snoopy->results, true);
-					
+					print_r($result);die();
 					$nodes = $this->parseRenderData($result['data']['user']['edge_owner_to_timeline_media']['edges']);
 					
 					$this->crawl_messages = array_merge($this->crawl_messages, $nodes);
