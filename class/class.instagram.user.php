@@ -33,6 +33,7 @@ class CrawlerInstagramUser extends CrawlerBase {
 			$last_id = null;//用于翻页请求中传入前一页数据的ID
 
 			for ($i=1; $i <= $page; $i++) { 
+
 				if ($i == 1) {
 					$crawl_url = 'https://www.instagram.com/'.$kw.'/';
 
@@ -47,19 +48,29 @@ class CrawlerInstagramUser extends CrawlerBase {
 
 					$this->log("请求返回结果:".$this->snoopy->results);
 
-					preg_match('#_sharedData = ([\s\S]+?)</script>#', $this->snoopy->results, $matches);
+					preg_match('#_sharedData = ([\s\S]+?);</script>#', $this->snoopy->results, $matches);
 					$config = json_decode(trim($matches[1], ';'), true);
+					
+					$nodes = $config['entry_data']['ProfilePage']["0"]['graphql']['user']['edge_owner_to_timeline_media']['edges'];
+					// $top_posts = $config['entry_data']['TagPage'][0]['tag']['top_posts']['nodes'];
+					// print_r($nodes);die();
+					if ($top_posts) {
+						foreach ($top_posts as $key => $value) {
+							array_unshift($nodes, $value);
+						}
+					}
 
-					$ins = $this->parseRenderData($config);
+					$ins = $this->parseRenderData($nodes);
 					
 					if (empty($ins)) {
 						break;
 					}
 
 					$this->crawl_messages = array_merge($this->crawl_messages,$ins);
-					$last_id = $config['entry_data']['ProfilePage'][0]['user']['media']['page_info']['end_cursor'];
+					$last_id = $config['entry_data']['ProfilePage']["0"]['graphql']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor'];
+
 				} else {
-					$crawl_url = 'https://www.instagram.com/graphql/query/?query_id=17888483320059182&variables='.rawurlencode(json_encode(array('id' => $config['entry_data']['ProfilePage'][0]['user']['id'], 'first' => 12, 'after' => $last_id)));
+					$crawl_url = 'https://www.instagram.com/graphql/query/?query_hash=42323d64886122307be10013ad2dcc44&variables='.rawurlencode(json_encode(array('id' => $config['entry_data']['ProfilePage']["0"]['graphql']['user']['id'], 'first' => 12, 'after' => $last_id)));
 
 					$this->log("开始请求地址:$crawl_url");
 
@@ -72,26 +83,17 @@ class CrawlerInstagramUser extends CrawlerBase {
 					$this->log("请求返回结果:".$this->snoopy->results);
 
 					$result = json_decode($this->snoopy->results, true);
-
-					foreach ($result['data']['user']['edge_owner_to_timeline_media']['edges'] as $node) {
-						$node = $node['node'];
-						$node['link'] = 'https://www.instagram.com/p/'.$node['shortcode'].'/';
-						if ($node['is_video']) {
-							$this->snoopy->fetch($node['link'] . '?__a=1');
-							$video_content = $this->snoopy->results;
-							if ($video_content === null) {
-								continue;
-							}
-							$video = json_decode($video_content, true);
-							$node['video'] = $video;
-						} 
-						$this->crawl_messages[] = $node;
-					}
+					
+					$nodes = $this->parseRenderData($result['data']['user']['edge_owner_to_timeline_media']['edges']);
+					
+					$this->crawl_messages = array_merge($this->crawl_messages, $nodes);
 					
 					$last_id = $result['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor'];
 				}		
 			}
 		}
+
+
 	}
 
 	public function doKeywordCheck() {
@@ -142,22 +144,18 @@ class CrawlerInstagramUser extends CrawlerBase {
 		$this->log('抓取结果:' . print_r($this->crawl_messages, true));
 	}
 
-	private function parseRenderData($config){
-		$nodes = $config['entry_data']['ProfilePage'][0]['user']['media']['nodes'];
-		if (isset($config['entry_data']['ProfilePage'][0]['user']['top_posts'])) {
-			$top_posts = $config['entry_data']['ProfilePage'][0]['user']['top_posts']['nodes'];
-
-			if ($top_posts) {
-				foreach ($top_posts as $key => $value) {
-					array_unshift($nodes, $value);
-				}
-			}
-		}
-
+	private function parseRenderData($nodes){
 		$fake_data = array();
 
 		foreach ($nodes as $node) {
-			$node['link'] = 'https://www.instagram.com/p/'.$node['code'].'/';
+			if (isset($node['node'])) {
+				$node = $node['node'];
+				$node['created_at_time'] = date('Y-m-d H:i:s', $node['taken_at_timestamp']);
+			} else {
+				$node['created_at_time'] = date('Y-m-d H:i:s', $node['date']);
+			}
+			
+			$node['link'] = 'https://www.instagram.com/p/'.(isset($node['code']) ? $node['code'] : $node['shortcode']).'/';
 			if ($node['is_video']) {
 				$this->snoopy->fetch($node['link'] . '?__a=1');
 				$video_content = $this->snoopy->results;

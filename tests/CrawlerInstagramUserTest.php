@@ -84,6 +84,7 @@ final class CrawlerInstagramUserTest extends TestCase
         $crawler->setConfig([
             'ids' => ['redvelvet.smtown'],
             'page' => 2,
+            // 'debug' => 1
         ]);
         $crawler->prepareCrawl();
         $crawler->executeCrawl();
@@ -96,46 +97,46 @@ final class CrawlerInstagramUserTest extends TestCase
         }
     }
 
-    public function testCannotGetEnoughMessageWithImageConfig()
-    {
-        $crawler = new CrawlerInstagramUser();
-        $crawler->setConfig([
-            'ids' => ['redvelvet.smtown'],
-            'page' => 1,
-            'image_check' => 9
-        ]);
-        $crawler->prepareCrawl();
-        $crawler->executeCrawl();
+    // public function testCannotGetEnoughMessageWithImageConfig()
+    // {
+    //     $crawler = new CrawlerInstagramUser();
+    //     $crawler->setConfig([
+    //         'ids' => ['redvelvet.smtown'],
+    //         'page' => 1,
+    //         'image_check' => 9
+    //     ]);
+    //     $crawler->prepareCrawl();
+    //     $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(12,count($crawler->getMessage()));
-    }
+    //     $this->assertLessThanOrEqual(12,count($crawler->getMessage()));
+    // }
 
-    public function testCannotGetEnoughMessageWithVideoConfig()
-    {
-        $crawler = new CrawlerInstagramUser();
-        $crawler->setConfig([
-            'ids' => ['redvelvet.smtown'],
-            'page' => 1,
-            'video_check' => 1
-        ]);
-        $crawler->prepareCrawl();
-        $crawler->executeCrawl();
+    // public function testCannotGetEnoughMessageWithVideoConfig()
+    // {
+    //     $crawler = new CrawlerInstagramUser();
+    //     $crawler->setConfig([
+    //         'ids' => ['redvelvet.smtown'],
+    //         'page' => 1,
+    //         'video_check' => 1
+    //     ]);
+    //     $crawler->prepareCrawl();
+    //     $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(12,count($crawler->getMessage()));
-    }
+    //     $this->assertLessThanOrEqual(12,count($crawler->getMessage()));
+    // }
 
-    public function testCannotGetEnoughMessageWithKeywordcheckConfig()
-    {
-        $crawler = new CrawlerInstagramUser();
-        $crawler->setConfig([
-            'ids' => ['redvelvet.smtown'],
-            'page' => 1,
-            'keyword_check' => ['DOTA'],
-        ]);
-        $crawler->prepareCrawl();
-        $crawler->executeCrawl();
+    // public function testCannotGetEnoughMessageWithKeywordcheckConfig()
+    // {
+    //     $crawler = new CrawlerInstagramUser();
+    //     $crawler->setConfig([
+    //         'ids' => ['redvelvet.smtown'],
+    //         'page' => 1,
+    //         'keyword_check' => ['DOTA'],
+    //     ]);
+    //     $crawler->prepareCrawl();
+    //     $crawler->executeCrawl();
 
-        $this->assertLessThanOrEqual(12,count($crawler->getMessage()));
-    }
+    //     $this->assertLessThanOrEqual(12,count($crawler->getMessage()));
+    // }
 
 }
